@@ -1,0 +1,29 @@
+A26 = "4T4R"
+B13 = "4T4R"
+B14 = 0
+B15 = 1
+B26 = =IF(OR(A26="4T4R",A26="4T4R_LS"),0,1)
+B30 = 1
+B34 = 0
+B35 = 1
+D13 = =IF(OR(B13="4T4R",B13="4T4R_LS"),0,1)
+F13 = =IF(D13=0,IF(B14=1,rx_adc_delay_4t4r_rand_min,0)+IF(B15,rx_adc_delay_4t4r_seq_min,0),IF(B14=1,rx_adc_delay_8t8r_rand_min,0)+IF(B15,rx_adc_delay_8t8r_seq_min,0))
+F14 = =IF(D13=0,IF(B14=1,inline_constants!B2,0)+IF(B15,rx_adc_delay_4t4r_seq_min,0),IF(B14=1,rx_adc_delay_8t8r_rand_min,0)+IF(B15,rx_adc_delay_8t8r_seq_min,0))
+I13 = =IF(B30=0,IF(SUM(B34:B35)+B26>0,"ERROR:fddc bmem,fsrc,cfir are to be enabled only in fine enable cases",""),"")
+K13 = =3*IF(D13=1,4,8)
+
+Sheet inline_constants
+A2 = "rx_adc_delay_4t4r_rand_min"
+B2 = 482
+A3 = "rx_adc_delay_4t4r_seq_min"
+B3 = 561
+A4 = "rx_adc_delay_8t8r_rand_min"
+B4 = 242
+A5 = "rx_adc_delay_8t8r_seq_min"
+B5 = 281
+
+defined names
+rx_adc_delay_4t4r_rand_min -> inline_constants!B2
+rx_adc_delay_4t4r_seq_min -> inline_constants!B3
+rx_adc_delay_8t8r_rand_min -> inline_constants!B4
+rx_adc_delay_8t8r_seq_min -> inline_constants!B5
