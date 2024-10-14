@@ -26,6 +26,8 @@ int main()
   ss << "F14 = IF(D13=0,IF(B14=1,inline_constants!B2,0)+IF(B15,rx_adc_delay_4t4r_seq_min,0),IF(B14=1,rx_adc_delay_8t8r_rand_min,0)+IF(B15,rx_adc_delay_8t8r_seq_min,0))" << std::endl;
   ss << "I13 = IF(B30=0,IF(SUM(B34:B35)+B26>0,\"ERROR:fddc bmem, fsrc, cfir are to be enabled only in fine enable cases\",\"\"),\"\")" << std::endl;
   ss << "K13 = 3*IF(D13=1,4,8)" << std::endl;
+  ss << "K14 = IF(D13=1,4,8)" << std::endl;
+  ss << "K15 = IF(D13=1,\"4\",\"8\")" << std::endl;
 
   if( cDriver.m_Parse(ss.str()) == 0 ){
       //Result

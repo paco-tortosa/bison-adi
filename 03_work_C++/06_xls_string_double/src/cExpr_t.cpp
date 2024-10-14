@@ -101,14 +101,14 @@ std::string cExpr_t::m_GetCStyleCode()
         break;
     case cExpr_t::encExprType_t::ID:
         if (s_MapAlias.count(m_strString)) {
-            ss << "mapCells[\"" << s_MapAlias[m_strString] << "\"]";
+            ss << "mapCells[\"" << s_MapAlias[m_strString] << "\"].";
         }
         break;
     case cExpr_t::encExprType_t::CELL:
-        ss << "mapCells[\"" << m_strCell << "\"]";
+        ss << "mapCells[\"" << m_strCell << "\"]..";
         break;
     case cExpr_t::encExprType_t::CELL_WITH_SHEET:
-        ss << "mapCells[\"" << m_strSheet << "!" << m_strCell << "\"]";
+        ss << "mapCells[\"" << m_strSheet << "!" << m_strCell << "\"]...";
         break;
     case cExpr_t::encExprType_t::RANGE:
         ss << m_strCell << ":" << m_strCell2;

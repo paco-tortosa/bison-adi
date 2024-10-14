@@ -41,12 +41,31 @@ public:
         NUMBER,
         STRING
     };
-    encExprDataType_t m_encDataType;
+    encExprDataType_t m_encExprDataType;
 
     cExpr_t()
         : m_encExprType(encExprType_t::UNDEFINED)
-        , m_encDataType(encExprDataType_t::UNDEFINED)
+        , m_encExprDataType(encExprDataType_t::UNDEFINED)
     {
+    }
+    std::string m_GetExprDataType(){
+        switch(this->m_encExprDataType){
+        case encExprDataType_t::UNDEFINED:
+            return "UNDEFINED";
+        case encExprDataType_t::NUMBER:
+            return "NUMBER";
+        case encExprDataType_t::STRING:
+            return "STRING";
+        }
+    }
+
+    static encExprDataType_t s_GetExprDataTypeOfFunction(const std::string& _strFunction, std::vector<std::shared_ptr<cExpr_t>>& _vcExprArgs){
+        if(_strFunction == "IF"){
+            if(_vcExprArgs.size() >= 3){
+                return _vcExprArgs[2]->m_encExprDataType;
+            }
+        }
+        return encExprDataType_t::UNDEFINED;
     }
 
     //Value

@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="cMain_t.cpp" />
     <ClCompile Include="src\cApp_t.cpp" />
+    <ClCompile Include="src\cAssign_t.cpp" />
     <ClCompile Include="src\cDriver_t.cpp" />
     <ClCompile Include="src\cExpr_t.cpp" />
     <ClCompile Include="src\parser.cc" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="include\unistd.h" />
     <ClInclude Include="src\cApp_t.hpp" />
+    <ClInclude Include="src\cAssign_t.hpp" />
     <ClInclude Include="src\cDriver_t.hpp" />
     <ClInclude Include="src\cExpr_t.hpp" />
   </ItemGroup>
