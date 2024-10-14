@@ -36,7 +36,15 @@ int main()
       for(auto& a:cDriver.m_cApp.m_vcAssign){
           std::cout << a.m_strCell << " = " << a.m_cExpr.m_GetXlsStyleCode() << std::endl; 
           std::cout << a.m_strCell << " = " << a.m_cExpr.m_GetCStyleCode() << std::endl; 
-          std::cout << a.m_strCell << " => " << a.m_cExpr.m_GetExprDataType() << std::endl << std::endl; 
+          std::cout << a.m_strCell << " => " << a.m_cExpr.m_GetExprDataType(); 
+          std::string strDependencies = a.m_cExpr.m_PrintDependencies();
+          if(strDependencies.size()){
+            std::cout << ", depends on " << strDependencies << std::endl;
+          }
+          else{
+              std::cout << std::endl;
+          }
+          std::cout << std::endl;
       }
   }
 }

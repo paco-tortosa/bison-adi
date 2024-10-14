@@ -2,6 +2,7 @@
 #define cExpr_t_hh
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <map>
@@ -48,6 +49,7 @@ public:
         , m_encExprDataType(encExprDataType_t::UNDEFINED)
     {
     }
+
     std::string m_GetExprDataType(){
         switch(this->m_encExprDataType){
         case encExprDataType_t::UNDEFINED:
@@ -66,6 +68,25 @@ public:
             }
         }
         return encExprDataType_t::UNDEFINED;
+    }
+
+    void m_AddDependency(cExpr_t& _cExpr){
+        for(auto& c:_cExpr.m_vstrDependOnCells){
+            if(std::find(m_vstrDependOnCells.begin(), m_vstrDependOnCells.end(), c) == m_vstrDependOnCells.end()) {
+                m_vstrDependOnCells.push_back(c);
+            }
+        }
+    }
+
+    std::string m_PrintDependencies(){
+        std::stringstream ss;
+        for(auto& c:m_vstrDependOnCells){
+            if(ss.str().size()){
+                ss << ", ";
+            }
+            ss << c;
+        }
+        return ss.str();
     }
 
     //Value
@@ -90,6 +111,9 @@ public:
                                                         //encType_t::LE
                                                         //encType_t::EQ
                                                         //encType_t::NEQ
+
+    //Depends on cells
+    std::vector<std::string> m_vstrDependOnCells;
 
     std::string m_GetXlsStyleCode();
     std::string m_GetCStyleCode();
