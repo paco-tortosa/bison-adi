@@ -32,5 +32,11 @@ int main()
   if( cDriver.m_Parse(ss.str()) == 0 ){
       //Result
       std::cout << "OK" << std::endl;
+
+      for(auto& a:cDriver.m_cApp.m_vcAssign){
+          std::cout << a.m_strCell << " = " << a.m_cExpr.m_GetXlsStyleCode() << std::endl; 
+          std::cout << a.m_strCell << " = " << a.m_cExpr.m_GetCStyleCode() << std::endl; 
+          std::cout << a.m_strCell << " => " << a.m_cExpr.m_GetExprDataType() << std::endl << std::endl; 
+      }
   }
 }

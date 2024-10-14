@@ -27,12 +27,10 @@
 %define parse.lac full
 
 %code top{
-    //TOP TOP TOP
     #include "cDriver_t.hpp"
 }
 
 %code requires{
-    //requires requires requires
     #include "cDriver_t.hpp"
 }
 
@@ -82,10 +80,9 @@ input:
 
 assignment:
     CELL "=" expr           {
-                                std::cout << $1 << " = " << $3->m_GetXlsStyleCode() << std::endl; 
-                                std::cout << $1 << " = " << $3->m_GetCStyleCode() << std::endl; 
-                                std::cout << $1 << " => " << $3->m_GetExprDataType() << std::endl; 
-                                std::cout << std::endl; 
+                                cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
+                                cDriver.m_cApp.m_vcAssign.back().m_strCell = $1;
+                                cDriver.m_cApp.m_vcAssign.back().m_cExpr = *$3;
                             }
 ;
 

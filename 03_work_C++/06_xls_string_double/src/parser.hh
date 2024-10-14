@@ -55,12 +55,11 @@
     #include <cstring> // strerror
     #include <string>
     class cDriver_t;
-#line 34 "grammar\\parser.yy"
+#line 33 "grammar\\parser.yy"
 
-    //requires requires requires
     #include "cDriver_t.hpp"
 
-#line 64 "src\\parser.hh"
+#line 63 "src\\parser.hh"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -200,7 +199,7 @@
 #endif
 
 namespace yy {
-#line 204 "src\\parser.hh"
+#line 203 "src\\parser.hh"
 
 
 
@@ -1782,7 +1781,7 @@ switch (yykind)
 
 
 } // yy
-#line 1786 "src\\parser.hh"
+#line 1785 "src\\parser.hh"
 
 
 
