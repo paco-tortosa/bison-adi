@@ -12,7 +12,7 @@ class cExpr_t
 public:
     static std::map<std::string, std::string> s_MapAlias;
 
-    enum class encType_t {
+    enum class encExprType_t {
         UNDEFINED, 
         NUMBER,
         STRING,
@@ -34,13 +34,20 @@ public:
         EQ,
         NEQ
     };
+    encExprType_t m_encExprType;
+
+    enum class encExprDataType_t {
+        UNDEFINED, 
+        NUMBER,
+        STRING
+    };
+    encExprDataType_t m_encDataType;
 
     cExpr_t()
-        : m_encType(encType_t::UNDEFINED)
+        : m_encExprType(encExprType_t::UNDEFINED)
+        , m_encDataType(encExprDataType_t::UNDEFINED)
     {
     }
-
-    encType_t m_encType;
 
     //Value
     double m_dValue;                                    //encType_t::NUMBER  -> m_dValue
