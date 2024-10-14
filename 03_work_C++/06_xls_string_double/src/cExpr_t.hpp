@@ -52,12 +52,13 @@ public:
 
     std::string m_GetExprDataType(){
         switch(this->m_encExprDataType){
-        case encExprDataType_t::UNDEFINED:
-            return "UNDEFINED";
         case encExprDataType_t::NUMBER:
             return "NUMBER";
         case encExprDataType_t::STRING:
             return "STRING";
+        case encExprDataType_t::UNDEFINED:
+        default:
+            return "UNDEFINED";
         }
     }
 
