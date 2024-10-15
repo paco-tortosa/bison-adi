@@ -29,20 +29,63 @@ int main()
     ss << "K14 = IF(D13=1,4,8)" << std::endl;
     ss << "K15 = IF(D13=1,\"4\",\"8\")" << std::endl;
     ss << "K16 = IF(D13=1,A26,B13)" << std::endl;
-    ss << "K17 = IF(D13=1,B14,B15)" << std::endl;
+    ss << "K17 = IF(D13=1,B14,Z99)" << std::endl;
+    ss << "Z99 = \"4T4R\"" << std::endl;
 
     if( cDriver.m_Parse(ss.str()) == 0 ){
         //Result
         std::cout << "OK" << std::endl;
 
         //Complete references
-        //int iPendingReferences = 0;
-        //while(true){
-        //    for(auto& a:cDriver.m_cApp.m_vcAssign){
-        //        if
-        //    }
-
-        //}
+        int iIteration = 1;
+        int iUndefines = 0;
+        while(true){
+            std::cout << "Iteration #" << (iIteration++) << std::endl; 
+            for(auto& it:cDriver.m_cApp.m_mapcAssign){
+                auto& cAssign = it.second;
+                if(cAssign.m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED){
+                    if(cAssign.m_cExpr.m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
+                       cAssign.m_cExpr.m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                        std::cout << "Defining " << cAssign.m_strCell << std::endl;
+                        cAssign.m_encExprDataType = cAssign.m_cExpr.m_encExprDataType;
+                    }
+                    else if(cAssign.m_cExpr.m_encExprDataType == cExpr_t::encExprDataType_t::REFERENCE){
+                        if(cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
+                           cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                            std::cout << "Defining r " << cAssign.m_strCell << std::endl;
+                            cAssign.m_encExprDataType = cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType;
+                        }
+                        else if(cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED &&
+                                cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprType == cExpr_t::encExprType_t::CELL){
+                            auto& cellName = cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_strCell;
+                            if(cDriver.m_cApp.m_mapcAssign.count(cellName)){
+                                if( cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
+                                    cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                                    std::cout << "Defining rr " << cAssign.m_strCell << std::endl;
+                                    cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType = cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType;
+                                    cAssign.m_encExprDataType = cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType;
+                                }
+                            }
+                        }
+                    }
+                }               
+            }
+            auto iPrevUndefines = iUndefines;
+            iUndefines = 0;
+            for(auto& it:cDriver.m_cApp.m_mapcAssign){
+                auto& cAssign = it.second;
+                if(cAssign.m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED){
+                    iUndefines++;
+                }               
+            }
+            if(iUndefines == 0){
+                break;
+            }
+            if(iPrevUndefines == iUndefines){
+                break;
+            }
+        }
+        std::cout << std::endl;
 
         for(auto& it:cDriver.m_cApp.m_mapcAssign){
             auto& a = it.second;

@@ -196,7 +196,6 @@ public:
     std::string m_GetXlsStyleCode();
     std::string m_GetCStyleCode();
 
-private:
     encExprDataType_t m_encExprDataType;
 };
 

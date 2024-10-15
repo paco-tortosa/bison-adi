@@ -11,13 +11,11 @@
 class cAssign_t
 {
 public:
-    cAssign_t()
-    {
-    }
+    cAssign_t();
 
-    //Value
     std::string m_strCell;
     cExpr_t m_cExpr;   
+    cExpr_t::encExprDataType_t m_encExprDataType;   //it Will be NUMBER or STRING
 };
 
 #endif
