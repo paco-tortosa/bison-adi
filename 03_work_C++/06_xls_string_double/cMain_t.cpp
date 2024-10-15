@@ -52,7 +52,6 @@ int main()
                 if(expr.m_encExprDataType == cExpr_t::encExprDataType_t::REFERENCE){
                     if( exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
                         exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
-                        std::cout << "Defining r " << cell << std::endl;
                         expr.m_encExprDataType = exprRef->m_encExprDataType;
                     }
                     else if(exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED &&
@@ -61,7 +60,6 @@ int main()
                         if(cDriver.m_cApp.m_mapcCells.count(cellName)){
                             if( cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
                                 cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
-                                std::cout << "Defining rr " << cell << std::endl;
                                 exprRef->m_encExprDataType = cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType;
                             }
                         }
