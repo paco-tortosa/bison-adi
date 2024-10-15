@@ -81,8 +81,8 @@ input:
 assignment:
     CELL "=" expr           {
                                 // cDriver.m_cApp.m_mapcAssign[$1] = *$3;
-                                cDriver.m_cApp.m_mapcAssign[$1].m_strCell = $1;
-                                cDriver.m_cApp.m_mapcAssign[$1].m_cExpr = *$3;
+                                // cDriver.m_cApp.m_mapcCells[$1].m_strCell = $1;
+                                cDriver.m_cApp.m_mapcCells[$1] = *$3;
                                 // cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
                                 // cDriver.m_cApp.m_vcAssign.back().m_strCell = $1;
                                 // cDriver.m_cApp.m_vcAssign.back().m_cExpr = *$3;

@@ -86,7 +86,7 @@ std::string cExpr_t::m_GetXlsStyleCode()
 }
 
 
-std::string cExpr_t::m_GetCStyleCode()
+std::string cExpr_t::m_GetCStyleCode(std::map<std::string, cExpr_t>& _mapcCells)
 {
     #define GENERATOR m_GetCStyleCode
     
@@ -105,12 +105,15 @@ std::string cExpr_t::m_GetCStyleCode()
         }
         break;
     case cExpr_t::encExprType_t::CELL:
-        if(m_encExprDataType == encExprDataType_t::NUMBER)
-            ss << "mapCells[\"" << m_strCell << "\"].num()";
-        else if(m_encExprDataType == encExprDataType_t::STRING)
-            ss << "mapCells[\"" << m_strCell << "\"].str()";
-        else if(m_encExprDataType == encExprDataType_t::UNDEFINED)
+        if(_mapcCells.count(m_strCell)){
+            if(_mapcCells[m_strCell].m_encExprDataType == encExprDataType_t::NUMBER)
+                ss << "mapCells[\"" << m_strCell << "\"].num()";
+            else if(_mapcCells[m_strCell].m_encExprDataType == encExprDataType_t::STRING)
+                ss << "mapCells[\"" << m_strCell << "\"].str()";
+        }
+        else {
             ss << "mapCells[\"" << m_strCell << "\"].undef()";
+        }
         break;
     case cExpr_t::encExprType_t::CELL_WITH_SHEET:
         ss << "mapCells[\"" << m_strSheet << "!" << m_strCell << "\"].to_define()";
@@ -126,12 +129,12 @@ std::string cExpr_t::m_GetCStyleCode()
                 if (i) {
                     ss << " || ";
                 }
-                ss << m_vspcExpr[i]->GENERATOR();
+                ss << m_vspcExpr[i]->GENERATOR(_mapcCells);
             }
             ss << ")";
         }
         else if (m_strFunction == "IF") {
-            ss << "( " << m_vspcExpr[0]->GENERATOR() << " ? " << m_vspcExpr[1]->GENERATOR() << " : " << m_vspcExpr[2]->GENERATOR() << " )";
+            ss << "( " << m_vspcExpr[0]->GENERATOR(_mapcCells) << " ? " << m_vspcExpr[1]->GENERATOR(_mapcCells) << " : " << m_vspcExpr[2]->GENERATOR(_mapcCells) << " )";
         }
         else {
             ss << m_strFunction << "(";
@@ -139,50 +142,50 @@ std::string cExpr_t::m_GetCStyleCode()
                 if (i) {
                     ss << ",";
                 }
-                ss << m_vspcExpr[i]->GENERATOR();
+                ss << m_vspcExpr[i]->GENERATOR(_mapcCells);
             }
             ss << ")";
         }
         break;
     }
     case cExpr_t::encExprType_t::ARITH_ADD:
-        ss << m_vspcExpr[0]->GENERATOR() << "+" << m_vspcExpr[1]->GENERATOR();
+        ss << m_vspcExpr[0]->GENERATOR(_mapcCells) << "+" << m_vspcExpr[1]->GENERATOR(_mapcCells);
         break;
     case cExpr_t::encExprType_t::ARITH_SUB:
-        ss << m_vspcExpr[0]->GENERATOR() << "-" << m_vspcExpr[1]->GENERATOR();
+        ss << m_vspcExpr[0]->GENERATOR(_mapcCells) << "-" << m_vspcExpr[1]->GENERATOR(_mapcCells);
         break;
     case cExpr_t::encExprType_t::ARITH_MUL:
-        ss << m_vspcExpr[0]->GENERATOR() << "*" << m_vspcExpr[1]->GENERATOR();
+        ss << m_vspcExpr[0]->GENERATOR(_mapcCells) << "*" << m_vspcExpr[1]->GENERATOR(_mapcCells);
         break;
     case cExpr_t::encExprType_t::ARITH_DIV:
-        ss << m_vspcExpr[0]->GENERATOR() << "/" << m_vspcExpr[1]->GENERATOR();
+        ss << m_vspcExpr[0]->GENERATOR(_mapcCells) << "/" << m_vspcExpr[1]->GENERATOR(_mapcCells);
         break;
     case cExpr_t::encExprType_t::ARITH_UNARY_MINUS:
-        ss << "-" << m_vspcExpr[0]->GENERATOR();
+        ss << "-" << m_vspcExpr[0]->GENERATOR(_mapcCells);
         break;
     case cExpr_t::encExprType_t::ARITH_IN_PAREN:
-        ss << "(" << m_vspcExpr[0]->GENERATOR() << ")";
+        ss << "(" << m_vspcExpr[0]->GENERATOR(_mapcCells) << ")";
         break;
     case cExpr_t::encExprType_t::STRING:
         ss << "\"" << m_strString << "\"";
         break;
     case cExpr_t::encExprType_t::EQ:
-        ss << "(" << m_vspcExpr[0]->GENERATOR() << "==" << m_vspcExpr[1]->GENERATOR() << ")";
+        ss << "(" << m_vspcExpr[0]->GENERATOR(_mapcCells) << "==" << m_vspcExpr[1]->GENERATOR(_mapcCells) << ")";
         break;
     case cExpr_t::encExprType_t::NEQ:
-        ss << "(" << m_vspcExpr[0]->GENERATOR() << "<>" << m_vspcExpr[1]->GENERATOR() << ")";
+        ss << "(" << m_vspcExpr[0]->GENERATOR(_mapcCells) << "<>" << m_vspcExpr[1]->GENERATOR(_mapcCells) << ")";
         break;
     case cExpr_t::encExprType_t::GT:
-        ss << "(" << m_vspcExpr[0]->GENERATOR() << ">" << m_vspcExpr[1]->GENERATOR() << ")";
+        ss << "(" << m_vspcExpr[0]->GENERATOR(_mapcCells) << ">" << m_vspcExpr[1]->GENERATOR(_mapcCells) << ")";
         break;
     case cExpr_t::encExprType_t::GE:
-        ss << "(" << m_vspcExpr[0]->GENERATOR() << ">=" << m_vspcExpr[1]->GENERATOR() << ")";
+        ss << "(" << m_vspcExpr[0]->GENERATOR(_mapcCells) << ">=" << m_vspcExpr[1]->GENERATOR(_mapcCells) << ")";
         break;
     case cExpr_t::encExprType_t::LT:
-        ss << "(" << m_vspcExpr[0]->GENERATOR() << "<" << m_vspcExpr[1]->GENERATOR() << ")";
+        ss << "(" << m_vspcExpr[0]->GENERATOR(_mapcCells) << "<" << m_vspcExpr[1]->GENERATOR(_mapcCells) << ")";
         break;
     case cExpr_t::encExprType_t::LE:
-        ss << "(" << m_vspcExpr[0]->GENERATOR() << "<=" << m_vspcExpr[1]->GENERATOR() << ")";
+        ss << "(" << m_vspcExpr[0]->GENERATOR(_mapcCells) << "<=" << m_vspcExpr[1]->GENERATOR(_mapcCells) << ")";
         break;
     }
     return ss.str();

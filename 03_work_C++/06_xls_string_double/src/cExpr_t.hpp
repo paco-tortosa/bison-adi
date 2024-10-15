@@ -194,7 +194,7 @@ public:
     cExpr_t* m_pcExpr_ReferenceForExprDataType;
 
     std::string m_GetXlsStyleCode();
-    std::string m_GetCStyleCode();
+    std::string m_GetCStyleCode(std::map<std::string, cExpr_t>& _mapcCells);
 
     encExprDataType_t m_encExprDataType;
 };

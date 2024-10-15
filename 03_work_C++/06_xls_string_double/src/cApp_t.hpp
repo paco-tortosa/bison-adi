@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 #include "cExpr_t.hpp"
-#include "cAssign_t.hpp"
+//#include "cAssign_t.hpp"
 
 class cApp_t
 {
@@ -14,6 +14,7 @@ public:
     {
     }
 
-    std::map<std::string, cAssign_t> m_mapcAssign;
+    //std::map<std::string, cAssign_t> m_mapcAssign;
+    std::map<std::string, cExpr_t> m_mapcCells;
 };
 #endif

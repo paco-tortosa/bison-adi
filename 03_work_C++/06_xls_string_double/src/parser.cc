@@ -660,8 +660,8 @@ namespace yy {
 #line 82 "grammar\\parser.yy"
                             {
                                 // cDriver.m_cApp.m_mapcAssign[$1] = *$3;
-                                cDriver.m_cApp.m_mapcAssign[yystack_[2].value.as < std::string > ()].m_strCell = yystack_[2].value.as < std::string > ();
-                                cDriver.m_cApp.m_mapcAssign[yystack_[2].value.as < std::string > ()].m_cExpr = *yystack_[0].value.as < std::shared_ptr<cExpr_t> > ();
+                                // cDriver.m_cApp.m_mapcCells[$1].m_strCell = $1;
+                                cDriver.m_cApp.m_mapcCells[yystack_[2].value.as < std::string > ()] = *yystack_[0].value.as < std::shared_ptr<cExpr_t> > ();
                                 // cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
                                 // cDriver.m_cApp.m_vcAssign.back().m_strCell = $1;
                                 // cDriver.m_cApp.m_vcAssign.back().m_cExpr = *$3;

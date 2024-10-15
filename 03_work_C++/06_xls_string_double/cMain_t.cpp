@@ -40,31 +40,29 @@ int main()
         int iIteration = 1;
         int iUndefines = 0;
         while(true){
-            std::cout << "Iteration #" << (iIteration++) << std::endl; 
-            for(auto& it:cDriver.m_cApp.m_mapcAssign){
-                auto& cAssign = it.second;
-                if(cAssign.m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED){
-                    if(cAssign.m_cExpr.m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
-                       cAssign.m_cExpr.m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
-                        std::cout << "Defining " << cAssign.m_strCell << std::endl;
-                        cAssign.m_encExprDataType = cAssign.m_cExpr.m_encExprDataType;
+            for(auto& it:cDriver.m_cApp.m_mapcCells){
+                auto& cell = it.first;
+                auto& expr = it.second;
+                auto* exprRef = expr.m_pcExpr_ReferenceForExprDataType;
+
+                if( expr.m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
+                    expr.m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                    continue;
+                }
+                if(expr.m_encExprDataType == cExpr_t::encExprDataType_t::REFERENCE){
+                    if( exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
+                        exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                        std::cout << "Defining r " << cell << std::endl;
+                        expr.m_encExprDataType = exprRef->m_encExprDataType;
                     }
-                    else if(cAssign.m_cExpr.m_encExprDataType == cExpr_t::encExprDataType_t::REFERENCE){
-                        if(cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
-                           cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
-                            std::cout << "Defining r " << cAssign.m_strCell << std::endl;
-                            cAssign.m_encExprDataType = cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType;
-                        }
-                        else if(cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED &&
-                                cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprType == cExpr_t::encExprType_t::CELL){
-                            auto& cellName = cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_strCell;
-                            if(cDriver.m_cApp.m_mapcAssign.count(cellName)){
-                                if( cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
-                                    cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
-                                    std::cout << "Defining rr " << cAssign.m_strCell << std::endl;
-                                    cAssign.m_cExpr.m_pcExpr_ReferenceForExprDataType->m_encExprDataType = cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType;
-                                    cAssign.m_encExprDataType = cDriver.m_cApp.m_mapcAssign[cellName].m_encExprDataType;
-                                }
+                    else if(exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED &&
+                            exprRef->m_encExprType == cExpr_t::encExprType_t::CELL){
+                        auto& cellName = exprRef->m_strCell;
+                        if(cDriver.m_cApp.m_mapcCells.count(cellName)){
+                            if( cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
+                                cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                                std::cout << "Defining rr " << cell << std::endl;
+                                exprRef->m_encExprDataType = cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType;
                             }
                         }
                     }
@@ -72,9 +70,9 @@ int main()
             }
             auto iPrevUndefines = iUndefines;
             iUndefines = 0;
-            for(auto& it:cDriver.m_cApp.m_mapcAssign){
-                auto& cAssign = it.second;
-                if(cAssign.m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED){
+            for(auto& it:cDriver.m_cApp.m_mapcCells){
+                auto& expr = it.second;
+                if(expr.m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED){
                     iUndefines++;
                 }               
             }
@@ -87,12 +85,13 @@ int main()
         }
         std::cout << std::endl;
 
-        for(auto& it:cDriver.m_cApp.m_mapcAssign){
-            auto& a = it.second;
-            std::cout << a.m_strCell << " = " << a.m_cExpr.m_GetXlsStyleCode() << std::endl; 
-            std::cout << a.m_strCell << " = " << a.m_cExpr.m_GetCStyleCode() << std::endl; 
-            std::cout << a.m_strCell << " => " << a.m_cExpr.m_GetExprDataType(); 
-            std::string strDependencies = a.m_cExpr.m_PrintDependencies();
+        for(auto& it:cDriver.m_cApp.m_mapcCells){
+            auto& cell = it.first;
+            auto& expr = it.second;
+            std::cout << cell << " = " << expr.m_GetXlsStyleCode() << std::endl; 
+            std::cout << cell << " = " << expr.m_GetCStyleCode(cDriver.m_cApp.m_mapcCells) << std::endl; 
+            std::cout << cell << " => " << expr.m_GetExprDataType(); 
+            std::string strDependencies = expr.m_PrintDependencies();
             if(strDependencies.size()){
             std::cout << ", depends on " << strDependencies << std::endl;
             }
