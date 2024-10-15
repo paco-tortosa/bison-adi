@@ -14,6 +14,7 @@ public:
     {
     }
 
-    std::vector<cAssign_t> m_vcAssign;
+    std::map<std::string, cAssign_t> m_mapcAssign;
+    //std::vector<cAssign_t> m_vcAssign;
 };
 #endif

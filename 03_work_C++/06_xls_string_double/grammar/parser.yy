@@ -80,9 +80,12 @@ input:
 
 assignment:
     CELL "=" expr           {
-                                cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
-                                cDriver.m_cApp.m_vcAssign.back().m_strCell = $1;
-                                cDriver.m_cApp.m_vcAssign.back().m_cExpr = *$3;
+                                // cDriver.m_cApp.m_mapcAssign[$1] = *$3;
+                                cDriver.m_cApp.m_mapcAssign[$1].m_strCell = $1;
+                                cDriver.m_cApp.m_mapcAssign[$1].m_cExpr = *$3;
+                                // cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
+                                // cDriver.m_cApp.m_vcAssign.back().m_strCell = $1;
+                                // cDriver.m_cApp.m_vcAssign.back().m_cExpr = *$3;
                             }
 ;
 
@@ -90,25 +93,23 @@ expr:
     NUMBER                  { 
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::NUMBER;
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                $$->m_SetExprDataType(cExpr_t::encExprDataType_t::NUMBER);
                                 $$->m_dValue = $1;
                             }
     | ID                    {    
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::ID; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 $$->m_strString = $1;
                             }              
     | STRING                { 
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::STRING; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::STRING;
+                                $$->m_SetExprDataType(cExpr_t::encExprDataType_t::STRING);
                                 $$->m_strString = $1.substr(1,$1.length()-2);
                             }              
     | ID "!" CELL           { 
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::CELL_WITH_SHEET; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 $$->m_strSheet = $1;
                                 $$->m_strCell = $3;
                                 $$->m_vstrDependOnCells.push_back($3);
@@ -116,14 +117,12 @@ expr:
     | CELL                  { 
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::CELL; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 $$->m_strCell = $1;
                                 $$->m_vstrDependOnCells.push_back($1);
                             }              
     | CELL ":" CELL         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::RANGE; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 $$->m_strCell = $1;
                                 $$->m_strCell2 = $3;
                                 $$->m_vstrDependOnCells.push_back($1);  //TODO
@@ -132,7 +131,8 @@ expr:
     | ID "(" args ")"       {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::FUNCTION; 
-                                $$->m_encExprDataType = cExpr_t::s_GetExprDataTypeOfFunction($1, $3);
+                                auto* t = cExpr_t::s_GetExprDataTypeOfFunction($1, $3);
+                                $$->m_SetExprReferenceForDataType(t);
                                 $$->m_strFunction = $1;
                                 $$->m_vspcExpr = $3;
                                 for(auto& e:$3){
@@ -142,7 +142,7 @@ expr:
     | expr "+" expr         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::ARITH_ADD; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -151,7 +151,7 @@ expr:
     | expr "-" expr         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::ARITH_SUB; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -160,7 +160,7 @@ expr:
     | expr "*" expr         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::ARITH_MUL; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -169,7 +169,7 @@ expr:
     | expr "/" expr         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::ARITH_DIV; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -178,21 +178,21 @@ expr:
     | "-" expr %prec NEG    {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::ARITH_UNARY_MINUS; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                $$->m_SetExprReferenceForDataType($2.get());
                                 $$->m_vspcExpr.push_back($2);
                                 $$->m_AddDependency(*$2);
                             }
     | "(" expr ")"          {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::ARITH_IN_PAREN; 
-                                $$->m_encExprDataType = $2->m_encExprDataType;
+                                $$->m_SetExprReferenceForDataType($2.get());
                                 $$->m_vspcExpr.push_back($2);
                                 $$->m_AddDependency(*$2);
                             }
     | expr "=" expr         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::EQ; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -201,7 +201,7 @@ expr:
     | expr "<>" expr        {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::NEQ; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -210,7 +210,7 @@ expr:
     | expr ">" expr         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::GT; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -219,7 +219,7 @@ expr:
     | expr ">=" expr        {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::GE; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -228,7 +228,7 @@ expr:
     | expr "<" expr         {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::LT; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);
@@ -237,7 +237,7 @@ expr:
     | expr "<=" expr        {   
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::LE; 
-                                $$->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                $$->m_SetExprReferenceForDataType($1.get());
                                 $$->m_vspcExpr.push_back($1);
                                 $$->m_AddDependency(*$1);
                                 $$->m_vspcExpr.push_back($3);

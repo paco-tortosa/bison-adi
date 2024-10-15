@@ -659,65 +659,65 @@ namespace yy {
   case 6: // assignment: CELL "=" expr
 #line 82 "grammar\\parser.yy"
                             {
-                                cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
-                                cDriver.m_cApp.m_vcAssign.back().m_strCell = yystack_[2].value.as < std::string > ();
-                                cDriver.m_cApp.m_vcAssign.back().m_cExpr = *yystack_[0].value.as < std::shared_ptr<cExpr_t> > ();
+                                // cDriver.m_cApp.m_mapcAssign[$1] = *$3;
+                                cDriver.m_cApp.m_mapcAssign[yystack_[2].value.as < std::string > ()].m_strCell = yystack_[2].value.as < std::string > ();
+                                cDriver.m_cApp.m_mapcAssign[yystack_[2].value.as < std::string > ()].m_cExpr = *yystack_[0].value.as < std::shared_ptr<cExpr_t> > ();
+                                // cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
+                                // cDriver.m_cApp.m_vcAssign.back().m_strCell = $1;
+                                // cDriver.m_cApp.m_vcAssign.back().m_cExpr = *$3;
                             }
-#line 667 "src\\parser.cc"
+#line 670 "src\\parser.cc"
     break;
 
   case 7: // expr: NUMBER
-#line 90 "grammar\\parser.yy"
+#line 93 "grammar\\parser.yy"
                             { 
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::NUMBER;
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprDataType(cExpr_t::encExprDataType_t::NUMBER);
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_dValue = yystack_[0].value.as < double > ();
                             }
-#line 678 "src\\parser.cc"
+#line 681 "src\\parser.cc"
     break;
 
   case 8: // expr: ID
-#line 96 "grammar\\parser.yy"
+#line 99 "grammar\\parser.yy"
                             {    
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ID; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strString = yystack_[0].value.as < std::string > ();
                             }
-#line 689 "src\\parser.cc"
+#line 691 "src\\parser.cc"
     break;
 
   case 9: // expr: STRING
-#line 102 "grammar\\parser.yy"
+#line 104 "grammar\\parser.yy"
                             { 
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::STRING; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::STRING;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprDataType(cExpr_t::encExprDataType_t::STRING);
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strString = yystack_[0].value.as < std::string > ().substr(1,yystack_[0].value.as < std::string > ().length()-2);
                             }
-#line 700 "src\\parser.cc"
+#line 702 "src\\parser.cc"
     break;
 
   case 10: // expr: ID "!" CELL
-#line 108 "grammar\\parser.yy"
+#line 110 "grammar\\parser.yy"
                             { 
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::CELL_WITH_SHEET; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strSheet = yystack_[2].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell = yystack_[0].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[0].value.as < std::string > ());
                             }
-#line 713 "src\\parser.cc"
+#line 714 "src\\parser.cc"
     break;
 
   case 11: // expr: CELL
-#line 116 "grammar\\parser.yy"
+#line 117 "grammar\\parser.yy"
                             { 
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::CELL; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell = yystack_[0].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[0].value.as < std::string > ());
                             }
@@ -729,21 +729,21 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::RANGE; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell = yystack_[2].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell2 = yystack_[0].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[2].value.as < std::string > ());  //TODO
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[0].value.as < std::string > ());  //TODO  
                             }
-#line 739 "src\\parser.cc"
+#line 738 "src\\parser.cc"
     break;
 
   case 13: // expr: ID "(" args ")"
-#line 132 "grammar\\parser.yy"
+#line 131 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::FUNCTION; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::s_GetExprDataTypeOfFunction(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<std::shared_ptr<cExpr_t>> > ());
+                                auto* t = cExpr_t::s_GetExprDataTypeOfFunction(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::vector<std::shared_ptr<cExpr_t>> > ());
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(t);
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strFunction = yystack_[3].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr = yystack_[1].value.as < std::vector<std::shared_ptr<cExpr_t>> > ();
                                 for(auto& e:yystack_[1].value.as < std::vector<std::shared_ptr<cExpr_t>> > ()){
@@ -758,7 +758,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_ADD; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -772,7 +772,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_SUB; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -786,7 +786,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_MUL; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -800,7 +800,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_DIV; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -814,7 +814,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_UNARY_MINUS; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::NUMBER;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
@@ -826,7 +826,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_IN_PAREN; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = yystack_[1].value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[1].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[1].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[1].value.as < std::shared_ptr<cExpr_t> > ());
                             }
@@ -838,7 +838,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::EQ; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -852,7 +852,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::NEQ; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -866,7 +866,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::GT; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -880,7 +880,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::GE; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -894,7 +894,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::LT; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -908,7 +908,7 @@ namespace yy {
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::LE; 
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprDataType = cExpr_t::encExprDataType_t::UNDEFINED;
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_SetExprReferenceForDataType(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ().get());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[2].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
@@ -1493,8 +1493,8 @@ namespace yy {
   const unsigned char
   parser::yyrline_[] =
   {
-       0,    72,    72,    73,    74,    75,    82,    90,    96,   102,
-     108,   116,   123,   132,   142,   151,   160,   169,   178,   185,
+       0,    72,    72,    73,    74,    75,    82,    93,    99,   104,
+     110,   117,   123,   131,   142,   151,   160,   169,   178,   185,
      192,   201,   210,   219,   228,   237,   249,   252
   };
 
