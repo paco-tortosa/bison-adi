@@ -36,9 +36,6 @@
     <ClCompile Include="src\cExpr_t.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cAssign_t.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="grammar\scanner.ll">
@@ -59,9 +56,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\cExpr_t.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cAssign_t.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
