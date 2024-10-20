@@ -46,21 +46,18 @@ int main()
                 auto& expr = it.second;
                 auto* exprRef = expr.m_pcExpr_ReferenceForExprDataType;
 
-                if( expr.m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
-                    expr.m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                if( expr.m_IsFinalDataType() ){
                     continue;
                 }
                 if(expr.m_encExprDataType == cExpr_t::encExprDataType_t::REFERENCE){
-                    if( exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
-                        exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                    if( exprRef->m_IsFinalDataType() ){
                         expr.m_encExprDataType = exprRef->m_encExprDataType;
                     }
                     else if(exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED &&
                             exprRef->m_encExprType == cExpr_t::encExprType_t::CELL_WITH_SHEET){
                         std::string cellWithSheet = exprRef->m_strSheet + "!" + exprRef->m_strCell;
                         if(cDriver.m_cApp.m_mapcCells.count(cellWithSheet)){
-                            if( cDriver.m_cApp.m_mapcCells[cellWithSheet].m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
-                                cDriver.m_cApp.m_mapcCells[cellWithSheet].m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                            if( cDriver.m_cApp.m_mapcCells[cellWithSheet].m_IsFinalDataType() ){
                                 exprRef->m_encExprDataType = cDriver.m_cApp.m_mapcCells[cellWithSheet].m_encExprDataType;
                             }
                         }

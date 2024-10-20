@@ -113,6 +113,16 @@ public:
         }
     }
 
+    bool m_IsFinalDataType(){
+        switch(this->m_encExprDataType){
+        case encExprDataType_t::NUMBER:
+        case encExprDataType_t::STRING:
+            return true;
+        default:
+            return false;
+        }
+    }
+
     void m_SetExprDataType(encExprDataType_t _encExprDataType){
         this->m_encExprDataType = _encExprDataType;
     }
