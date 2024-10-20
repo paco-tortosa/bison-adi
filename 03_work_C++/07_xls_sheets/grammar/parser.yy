@@ -121,9 +121,20 @@ expr:
                                 $$->m_strCell = $1;
                                 $$->m_vstrDependOnCells.push_back($1);
                             }              
+    | ID "!" CELL ":" CELL  { 
+                                $$ = std::make_shared<cExpr_t>();
+                                $$->m_encExprType = cExpr_t::encExprType_t::RANGE_WITH_SHEET; 
+                                $$->m_strSheet = $1;
+                                $$->m_strCell = $3;
+                                $$->m_strCell2 = $5;
+                                $$->m_vstrDependOnCells.push_back($3);  //TODO
+                                $$->m_vstrDependOnCells.push_back($5);  //TODO
+                            }              
     | CELL ":" CELL         {   
                                 $$ = std::make_shared<cExpr_t>();
-                                $$->m_encExprType = cExpr_t::encExprType_t::RANGE; 
+                                // $$->m_encExprType = cExpr_t::encExprType_t::RANGE; 
+                                $$->m_encExprType = cExpr_t::encExprType_t::RANGE_WITH_SHEET; 
+                                $$->m_strSheet = cDriver.m_strSheetInParsing;
                                 $$->m_strCell = $1;
                                 $$->m_strCell2 = $3;
                                 $$->m_vstrDependOnCells.push_back($1);  //TODO

@@ -25,6 +25,9 @@ std::string cExpr_t::m_GetXlsStyleCode()
     case cExpr_t::encExprType_t::RANGE:
         ss << m_strCell << ":" << m_strCell2;
         break;
+    case cExpr_t::encExprType_t::RANGE_WITH_SHEET:
+        ss << m_strSheet << "!" << m_strCell << ":" << m_strCell2;
+        break;
     case cExpr_t::encExprType_t::FUNCTION:
     {
         ss << m_strFunction << "(";
@@ -132,6 +135,9 @@ std::string cExpr_t::m_GetCStyleCode(std::map<std::string, cExpr_t>& _mapcCells)
     }
     case cExpr_t::encExprType_t::RANGE:
         ss << m_strCell << ":" << m_strCell2;
+        break;
+    case cExpr_t::encExprType_t::RANGE_WITH_SHEET:
+        ss << m_strSheet << "!" << m_strCell << ":" << m_strCell2;
         break;
     case cExpr_t::encExprType_t::FUNCTION:
     {

@@ -21,6 +21,7 @@ public:
         CELL,
         CELL_WITH_SHEET,
         RANGE, 
+        RANGE_WITH_SHEET,
         FUNCTION, 
         ARITH_ADD,
         ARITH_SUB,
@@ -52,6 +53,8 @@ public:
             return "CELL_WITH_SHEET " + m_strSheet + "!" + m_strCell;
         case encExprType_t::RANGE:
             return "RANGE";
+        case encExprType_t::RANGE_WITH_SHEET:
+            return "RANGE_WITH_SHEET " + m_strSheet + "!" + m_strCell + ":" + m_strCell2;
         case encExprType_t::FUNCTION:
             return "FUNCTION";
         case encExprType_t::ARITH_ADD:
@@ -178,7 +181,7 @@ public:
     double m_dValue;                                    //encType_t::NUMBER  -> m_dValue
     std::string m_strString;                            //encType_t::STRING
                                                         //encType_t::ID
-    std::string m_strSheet;                             //encType_t::CELL_WITH_SHEET
+    std::string m_strSheet;                             //encType_t::CELL_WITH_SHEET and RANGE_WITH_SHEET
     std::string m_strCell;                              //encType_t::CELL    -> m_strCell
     std::string m_strCell2;                             //encType_t::RANGE   -> m_strCell:m_strCell2
     std::string m_strFunction;                          //encType_t::FUNCTION

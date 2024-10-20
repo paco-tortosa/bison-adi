@@ -730,21 +730,37 @@ namespace yy {
 #line 731 "src\\parser.cc"
     break;
 
-  case 13: // expr: CELL ":" CELL
+  case 13: // expr: ID "!" CELL ":" CELL
 #line 124 "grammar\\parser.yy"
+                            { 
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::RANGE_WITH_SHEET; 
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strSheet = yystack_[4].value.as < std::string > ();
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell = yystack_[2].value.as < std::string > ();
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell2 = yystack_[0].value.as < std::string > ();
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[2].value.as < std::string > ());  //TODO
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[0].value.as < std::string > ());  //TODO
+                            }
+#line 745 "src\\parser.cc"
+    break;
+
+  case 14: // expr: CELL ":" CELL
+#line 133 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
-                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::RANGE; 
+                                // $$->m_encExprType = cExpr_t::encExprType_t::RANGE; 
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::RANGE_WITH_SHEET; 
+                                yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strSheet = cDriver.m_strSheetInParsing;
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell = yystack_[2].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_strCell2 = yystack_[0].value.as < std::string > ();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[2].value.as < std::string > ());  //TODO
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vstrDependOnCells.push_back(yystack_[0].value.as < std::string > ());  //TODO  
                             }
-#line 744 "src\\parser.cc"
+#line 760 "src\\parser.cc"
     break;
 
-  case 14: // expr: ID "(" args ")"
-#line 132 "grammar\\parser.yy"
+  case 15: // expr: ID "(" args ")"
+#line 143 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::FUNCTION; 
@@ -756,11 +772,11 @@ namespace yy {
                                     yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*e);
                                 }
                             }
-#line 760 "src\\parser.cc"
+#line 776 "src\\parser.cc"
     break;
 
-  case 15: // expr: expr "+" expr
-#line 143 "grammar\\parser.yy"
+  case 16: // expr: expr "+" expr
+#line 154 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_ADD; 
@@ -770,11 +786,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 774 "src\\parser.cc"
+#line 790 "src\\parser.cc"
     break;
 
-  case 16: // expr: expr "-" expr
-#line 152 "grammar\\parser.yy"
+  case 17: // expr: expr "-" expr
+#line 163 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_SUB; 
@@ -784,11 +800,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 788 "src\\parser.cc"
+#line 804 "src\\parser.cc"
     break;
 
-  case 17: // expr: expr "*" expr
-#line 161 "grammar\\parser.yy"
+  case 18: // expr: expr "*" expr
+#line 172 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_MUL; 
@@ -798,11 +814,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 802 "src\\parser.cc"
+#line 818 "src\\parser.cc"
     break;
 
-  case 18: // expr: expr "/" expr
-#line 170 "grammar\\parser.yy"
+  case 19: // expr: expr "/" expr
+#line 181 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_DIV; 
@@ -812,11 +828,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 816 "src\\parser.cc"
+#line 832 "src\\parser.cc"
     break;
 
-  case 19: // expr: "-" expr
-#line 179 "grammar\\parser.yy"
+  case 20: // expr: "-" expr
+#line 190 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_UNARY_MINUS; 
@@ -824,11 +840,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 828 "src\\parser.cc"
+#line 844 "src\\parser.cc"
     break;
 
-  case 20: // expr: "(" expr ")"
-#line 186 "grammar\\parser.yy"
+  case 21: // expr: "(" expr ")"
+#line 197 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::ARITH_IN_PAREN; 
@@ -836,11 +852,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[1].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[1].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 840 "src\\parser.cc"
+#line 856 "src\\parser.cc"
     break;
 
-  case 21: // expr: expr "=" expr
-#line 193 "grammar\\parser.yy"
+  case 22: // expr: expr "=" expr
+#line 204 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::EQ; 
@@ -850,11 +866,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 854 "src\\parser.cc"
+#line 870 "src\\parser.cc"
     break;
 
-  case 22: // expr: expr "<>" expr
-#line 202 "grammar\\parser.yy"
+  case 23: // expr: expr "<>" expr
+#line 213 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::NEQ; 
@@ -864,11 +880,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 868 "src\\parser.cc"
+#line 884 "src\\parser.cc"
     break;
 
-  case 23: // expr: expr ">" expr
-#line 211 "grammar\\parser.yy"
+  case 24: // expr: expr ">" expr
+#line 222 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::GT; 
@@ -878,11 +894,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 882 "src\\parser.cc"
+#line 898 "src\\parser.cc"
     break;
 
-  case 24: // expr: expr ">=" expr
-#line 220 "grammar\\parser.yy"
+  case 25: // expr: expr ">=" expr
+#line 231 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::GE; 
@@ -892,11 +908,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 896 "src\\parser.cc"
+#line 912 "src\\parser.cc"
     break;
 
-  case 25: // expr: expr "<" expr
-#line 229 "grammar\\parser.yy"
+  case 26: // expr: expr "<" expr
+#line 240 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::LT; 
@@ -906,11 +922,11 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 910 "src\\parser.cc"
+#line 926 "src\\parser.cc"
     break;
 
-  case 26: // expr: expr "<=" expr
-#line 238 "grammar\\parser.yy"
+  case 27: // expr: expr "<=" expr
+#line 249 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > () = std::make_shared<cExpr_t>();
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_encExprType = cExpr_t::encExprType_t::LE; 
@@ -920,28 +936,28 @@ namespace yy {
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_vspcExpr.push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 yylhs.value.as < std::shared_ptr<cExpr_t> > ()->m_AddDependency(*yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 924 "src\\parser.cc"
+#line 940 "src\\parser.cc"
     break;
 
-  case 27: // args: expr
-#line 250 "grammar\\parser.yy"
+  case 28: // args: expr
+#line 261 "grammar\\parser.yy"
                             {   
                                 yylhs.value.as < std::vector<std::shared_ptr<cExpr_t>> > ().push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                             }
-#line 932 "src\\parser.cc"
+#line 948 "src\\parser.cc"
     break;
 
-  case 28: // args: args "," expr
-#line 253 "grammar\\parser.yy"
+  case 29: // args: args "," expr
+#line 264 "grammar\\parser.yy"
                             {   
                                 yystack_[2].value.as < std::vector<std::shared_ptr<cExpr_t>> > ().push_back(yystack_[0].value.as < std::shared_ptr<cExpr_t> > ());
                                 std::swap(yylhs.value.as < std::vector<std::shared_ptr<cExpr_t>> > (),yystack_[2].value.as < std::vector<std::shared_ptr<cExpr_t>> > ());
                             }
-#line 941 "src\\parser.cc"
+#line 957 "src\\parser.cc"
     break;
 
 
-#line 945 "src\\parser.cc"
+#line 961 "src\\parser.cc"
 
             default:
               break;
@@ -1408,8 +1424,9 @@ namespace yy {
       17,   -18,   -18,    35,    34,     4,    30,     4,     4,   -18,
       48,    45,   -18,    44,    57,   -18,    29,     4,    46,    47,
        4,     4,     4,     4,     4,     4,     4,     4,     4,     4,
-     -18,   -18,    44,    -5,   -18,   -18,     3,     3,   -18,   -18,
-      59,    59,    59,    59,    59,    59,   -18,     4,    44
+     -18,   -18,    44,    -5,    68,   -18,     3,     3,   -18,   -18,
+      59,    59,    59,    59,    59,    59,   -18,     4,    55,    44,
+     -18
   };
 
   const signed char
@@ -1417,10 +1434,11 @@ namespace yy {
   {
        2,     0,     0,     0,     1,     3,     0,     0,     0,     0,
        0,     4,     5,     0,     0,     0,     0,     0,     0,     8,
-       9,    12,    10,     7,     0,    19,     0,     0,     0,     0,
+       9,    12,    10,     7,     0,    20,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       6,    20,    27,     0,    11,    13,    16,    15,    17,    18,
-      23,    24,    25,    26,    21,    22,    14,     0,    28
+       6,    21,    28,     0,    11,    14,    17,    16,    18,    19,
+      24,    25,    26,    27,    22,    23,    15,     0,     0,    29,
+      13
   };
 
   const signed char
@@ -1442,10 +1460,10 @@ namespace yy {
       42,    18,     5,    46,    47,    48,    49,    50,    51,    52,
       53,    54,    55,     3,     6,    19,    20,    21,    22,     1,
        8,    11,    30,    31,    32,    33,    12,    41,    13,    14,
-      58,    34,    35,    36,    37,    38,    39,    30,    31,    32,
+      59,    34,    35,    36,    37,    38,    39,    30,    31,    32,
       33,    15,    16,    24,    29,    27,    34,    35,    36,    37,
       38,    39,    30,    31,    32,    33,    28,    40,     0,    44,
-      45,    -1,    -1,    -1,    -1,    -1,    -1
+      45,    -1,    -1,    -1,    -1,    -1,    -1,    58,    60
   };
 
   const signed char
@@ -1458,7 +1476,7 @@ namespace yy {
       57,    12,    13,    14,    15,    16,    17,     3,     4,     5,
        6,    16,    18,    23,     9,     7,    12,    13,    14,    15,
       16,    17,     3,     4,     5,     6,    18,    10,    -1,    23,
-      23,    12,    13,    14,    15,    16,    17
+      23,    12,    13,    14,    15,    16,    17,     9,    23
   };
 
   const signed char
@@ -1469,7 +1487,8 @@ namespace yy {
       22,    23,    24,    29,    23,    29,    29,     7,    18,     9,
        3,     4,     5,     6,    12,    13,    14,    15,    16,    17,
       10,     8,    29,    30,    23,    23,    29,    29,    29,    29,
-      29,    29,    29,    29,    29,    29,     8,    11,    29
+      29,    29,    29,    29,    29,    29,     8,    11,     9,    29,
+      23
   };
 
   const signed char
@@ -1477,27 +1496,27 @@ namespace yy {
   {
        0,    26,    27,    27,    27,    27,    27,    28,    29,    29,
       29,    29,    29,    29,    29,    29,    29,    29,    29,    29,
-      29,    29,    29,    29,    29,    29,    29,    30,    30
+      29,    29,    29,    29,    29,    29,    29,    29,    30,    30
   };
 
   const signed char
   parser::yyr2_[] =
   {
        0,     2,     0,     2,     3,     4,     7,     5,     1,     1,
-       1,     3,     1,     3,     4,     3,     3,     3,     3,     2,
-       3,     3,     3,     3,     3,     3,     3,     1,     3
+       1,     3,     1,     5,     3,     4,     3,     3,     3,     3,
+       2,     3,     3,     3,     3,     3,     3,     3,     1,     3
   };
 
 
 
 
 #if YYDEBUG
-  const unsigned char
+  const short
   parser::yyrline_[] =
   {
        0,    73,    73,    74,    75,    76,    79,    85,    92,    98,
-     103,   109,   116,   124,   132,   143,   152,   161,   170,   179,
-     186,   193,   202,   211,   220,   229,   238,   250,   253
+     103,   109,   116,   124,   133,   143,   154,   163,   172,   181,
+     190,   197,   204,   213,   222,   231,   240,   249,   261,   264
   };
 
   void
@@ -1529,9 +1548,9 @@ namespace yy {
 
 
 } // yy
-#line 1533 "src\\parser.cc"
+#line 1552 "src\\parser.cc"
 
-#line 258 "grammar\\parser.yy"
+#line 269 "grammar\\parser.yy"
 
 
 void yy::parser::error (const location_type& _cLocation, const std::string& _strError) {
