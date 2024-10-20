@@ -20,6 +20,7 @@ public:
     yy::location m_cLocation;                   //The token's location used by the scanner.
     bool m_bTraceParsing;                       //Whether to generate parser debug traces.
     bool m_bTraceScanning;                      //Whether to generate scanner debug traces.
+    std::string m_strSheetInParsing;
     int m_Parse(const std::string& _strBuffer); //Run the parser on string.  Return 0 on success.
 
     //User app

@@ -12,7 +12,7 @@
     #include <cerrno>
     #include <climits>
     #include <cstdlib>
-    #include <cstring> // strerror
+    #include <cstring>
     #include <string>
     class cDriver_t;
 }
@@ -54,6 +54,7 @@
 %token NEQ      "<>";
 %token EXCL     "!";
 %token ALIAS    "alias";
+%token SHEET    "sheet";
 
 %token <double> NUMBER
 %token <std::string> ID CELL STRING
@@ -72,20 +73,18 @@ input:
     %empty                  {}
     | input "\n"            {}
     | input assignment "\n" {}
-    | input ID "alias" ID "!" CELL "\n" 
-                            {
+    | SHEET "=" STRING "\n" {
+                                cDriver.m_strSheetInParsing = $3;
+                            }
+    | input ID "alias" ID "!" CELL "\n" {
                                 cExpr_t::s_MapAlias[$2] = $4 + "!" + $6;
                             }
 ;
 
 assignment:
-    CELL "=" expr           {
-                                // cDriver.m_cApp.m_mapcAssign[$1] = *$3;
-                                // cDriver.m_cApp.m_mapcCells[$1].m_strCell = $1;
-                                cDriver.m_cApp.m_mapcCells[$1] = *$3;
-                                // cDriver.m_cApp.m_vcAssign.push_back(cAssign_t());
-                                // cDriver.m_cApp.m_vcAssign.back().m_strCell = $1;
-                                // cDriver.m_cApp.m_vcAssign.back().m_cExpr = *$3;
+    ID "!" CELL "=" expr    {
+                                std::string strSheetAndCell = $1 + "!" + $3;
+                                cDriver.m_cApp.m_mapcCells[strSheetAndCell] = *$5;
                             }
 ;
 
@@ -105,7 +104,7 @@ expr:
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::STRING; 
                                 $$->m_SetExprDataType(cExpr_t::encExprDataType_t::STRING);
-                                $$->m_strString = $1.substr(1,$1.length()-2);
+                                $$->m_strString = $1;
                             }              
     | ID "!" CELL           { 
                                 $$ = std::make_shared<cExpr_t>();
@@ -116,7 +115,9 @@ expr:
                             }              
     | CELL                  { 
                                 $$ = std::make_shared<cExpr_t>();
-                                $$->m_encExprType = cExpr_t::encExprType_t::CELL; 
+                                // $$->m_encExprType = cExpr_t::encExprType_t::CELL; 
+                                $$->m_encExprType = cExpr_t::encExprType_t::CELL_WITH_SHEET; 
+                                $$->m_strSheet = cDriver.m_strSheetInParsing;
                                 $$->m_strCell = $1;
                                 $$->m_vstrDependOnCells.push_back($1);
                             }              

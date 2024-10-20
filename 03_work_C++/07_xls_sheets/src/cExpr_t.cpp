@@ -116,8 +116,20 @@ std::string cExpr_t::m_GetCStyleCode(std::map<std::string, cExpr_t>& _mapcCells)
         }
         break;
     case cExpr_t::encExprType_t::CELL_WITH_SHEET:
-        ss << "mapCells[\"" << m_strSheet << "!" << m_strCell << "\"].to_define()";
+    {
+        std::string strCellWithSheet = m_strSheet + "!" + m_strCell;
+        if(_mapcCells.count(strCellWithSheet)){
+            if(_mapcCells[strCellWithSheet].m_encExprDataType == encExprDataType_t::NUMBER)
+                ss << "mapCells[\"" << strCellWithSheet << "\"].num()";
+            else if(_mapcCells[strCellWithSheet].m_encExprDataType == encExprDataType_t::STRING)
+                ss << "mapCells[\"" << strCellWithSheet << "\"].str()";
+        }
+        else {
+            ss << "mapCells[\"" << strCellWithSheet << "\"].undef()";
+        }
+        //ss << "mapCells[\"" << strCellWithSheet << "\"].to_define()";
         break;
+    }
     case cExpr_t::encExprType_t::RANGE:
         ss << m_strCell << ":" << m_strCell2;
         break;

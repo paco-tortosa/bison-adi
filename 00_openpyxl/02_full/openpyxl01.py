@@ -11,7 +11,7 @@ wb = load_workbook(filename = 'Apollo_Rx_Latency_Calculator_B0.xlsm')
 
 # print (wb.sheetnames)
 for s in wb.sheetnames:
-    print("Sheet =", s)
+    print("Sheet = ", "\"", s, "\"", sep="")
 
     ws = wb[s]
     for row in ws:
@@ -33,4 +33,4 @@ for s in wb.sheetnames:
 print("")
 print("defined names :")
 for k, v in wb.defined_names.items():
-    print(k, "->", v.attr_text.replace('$',''))
+    print(k, "alias", v.attr_text.replace('$',''), "\"")

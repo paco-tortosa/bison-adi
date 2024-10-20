@@ -9,28 +9,29 @@ int main()
     std::stringstream ss;
 
     //Input
+    ss << "sheet = \"Calculator\"" << std::endl;
+    ss << "Calculator!A26 = \"4T4R\"" << std::endl;
+    ss << "Calculator!B13 = \"4T4R\"" << std::endl;
+    ss << "Calculator!B14 = 0" << std::endl;
+    ss << "Calculator!B15 = 1" << std::endl;
+    ss << "Calculator!B26 = IF(OR(A26=\"4T4R\",A26=\"4T4R_LS\"),0,1)" << std::endl;
+    ss << "Calculator!B30 = 1" << std::endl;
+    ss << "Calculator!B34 = 0" << std::endl;
+    ss << "Calculator!B35 = 1" << std::endl;
+    ss << "Calculator!D13 = IF(OR(B13=\"4T4R\",B13=\"4T4R_LS\"),0,1)" << std::endl;
+    ss << "Calculator!F13 = IF(D13=0,IF(B14=1,rx_adc_delay_4t4r_rand_min,0)+IF(B15,rx_adc_delay_4t4r_seq_min,0),IF(B14=1,rx_adc_delay_8t8r_rand_min,0)+IF(B15,rx_adc_delay_8t8r_seq_min,0))" << std::endl;
+    ss << "Calculator!F14 = IF(D13=0,IF(B14=1,inline_constants!B2,0)+IF(B15,rx_adc_delay_4t4r_seq_min,0),IF(B14=1,rx_adc_delay_8t8r_rand_min,0)+IF(B15,rx_adc_delay_8t8r_seq_min,0))" << std::endl;
+    ss << "Calculator!I13 = IF(B30=0,IF(SUM(B34:B35)+B26>0,\"ERROR:fddc bmem, fsrc, cfir are to be enabled only in fine enable cases\",\"\"),\"\")" << std::endl;
+    ss << "Calculator!K13 = 3*IF(D13=1,4,8)" << std::endl;
+    ss << "Calculator!K14 = IF(D13=1,4,8)" << std::endl;
+    ss << "Calculator!K15 = IF(D13=1,\"4\",\"8\")" << std::endl;
+    ss << "Calculator!K16 = IF(D13=1,A26,B13)" << std::endl;
+    ss << "Calculator!K17 = IF(D13=1,B14,Z99)" << std::endl;
+    ss << "Calculator!Z99 = \"4T4R\"" << std::endl;
     ss << "rx_adc_delay_4t4r_rand_min alias inline_constants!B2" << std::endl;
     ss << "rx_adc_delay_4t4r_seq_min alias inline_constants!B3" << std::endl;
     ss << "rx_adc_delay_8t8r_rand_min alias inline_constants!B4" << std::endl;
     ss << "rx_adc_delay_8t8r_seq_min alias inline_constants!B5" << std::endl;
-    ss << "A26 = \"4T4R\"" << std::endl;
-    ss << "B13 = \"4T4R\"" << std::endl;
-    ss << "B14 = 0" << std::endl;
-    ss << "B15 = 1" << std::endl;
-    ss << "B26 = IF(OR(A26=\"4T4R\",A26=\"4T4R_LS\"),0,1)" << std::endl;
-    ss << "B30 = 1" << std::endl;
-    ss << "B34 = 0" << std::endl;
-    ss << "B35 = 1" << std::endl;
-    ss << "D13 = IF(OR(B13=\"4T4R\",B13=\"4T4R_LS\"),0,1)" << std::endl;
-    ss << "F13 = IF(D13=0,IF(B14=1,rx_adc_delay_4t4r_rand_min,0)+IF(B15,rx_adc_delay_4t4r_seq_min,0),IF(B14=1,rx_adc_delay_8t8r_rand_min,0)+IF(B15,rx_adc_delay_8t8r_seq_min,0))" << std::endl;
-    ss << "F14 = IF(D13=0,IF(B14=1,inline_constants!B2,0)+IF(B15,rx_adc_delay_4t4r_seq_min,0),IF(B14=1,rx_adc_delay_8t8r_rand_min,0)+IF(B15,rx_adc_delay_8t8r_seq_min,0))" << std::endl;
-    ss << "I13 = IF(B30=0,IF(SUM(B34:B35)+B26>0,\"ERROR:fddc bmem, fsrc, cfir are to be enabled only in fine enable cases\",\"\"),\"\")" << std::endl;
-    ss << "K13 = 3*IF(D13=1,4,8)" << std::endl;
-    ss << "K14 = IF(D13=1,4,8)" << std::endl;
-    ss << "K15 = IF(D13=1,\"4\",\"8\")" << std::endl;
-    ss << "K16 = IF(D13=1,A26,B13)" << std::endl;
-    ss << "K17 = IF(D13=1,B14,Z99)" << std::endl;
-    ss << "Z99 = \"4T4R\"" << std::endl;
 
     if( cDriver.m_Parse(ss.str()) == 0 ){
         //Result
@@ -55,12 +56,12 @@ int main()
                         expr.m_encExprDataType = exprRef->m_encExprDataType;
                     }
                     else if(exprRef->m_encExprDataType == cExpr_t::encExprDataType_t::UNDEFINED &&
-                            exprRef->m_encExprType == cExpr_t::encExprType_t::CELL){
-                        auto& cellName = exprRef->m_strCell;
-                        if(cDriver.m_cApp.m_mapcCells.count(cellName)){
-                            if( cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
-                                cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
-                                exprRef->m_encExprDataType = cDriver.m_cApp.m_mapcCells[cellName].m_encExprDataType;
+                            exprRef->m_encExprType == cExpr_t::encExprType_t::CELL_WITH_SHEET){
+                        std::string cellWithSheet = exprRef->m_strSheet + "!" + exprRef->m_strCell;
+                        if(cDriver.m_cApp.m_mapcCells.count(cellWithSheet)){
+                            if( cDriver.m_cApp.m_mapcCells[cellWithSheet].m_encExprDataType == cExpr_t::encExprDataType_t::NUMBER ||
+                                cDriver.m_cApp.m_mapcCells[cellWithSheet].m_encExprDataType == cExpr_t::encExprDataType_t::STRING){
+                                exprRef->m_encExprDataType = cDriver.m_cApp.m_mapcCells[cellWithSheet].m_encExprDataType;
                             }
                         }
                     }

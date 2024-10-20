@@ -49,7 +49,7 @@ public:
         case encExprType_t::CELL:
             return "CELL " +  m_strCell;
         case encExprType_t::CELL_WITH_SHEET:
-            return "CELL_WITH_SHEET";
+            return "CELL_WITH_SHEET " + m_strSheet + "!" + m_strCell;
         case encExprType_t::RANGE:
             return "RANGE";
         case encExprType_t::FUNCTION:

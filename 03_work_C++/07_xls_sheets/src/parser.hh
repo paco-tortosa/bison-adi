@@ -52,7 +52,7 @@
     #include <cerrno>
     #include <climits>
     #include <cstdlib>
-    #include <cstring> // strerror
+    #include <cstring>
     #include <string>
     class cDriver_t;
 #line 33 "grammar\\parser.yy"
@@ -500,11 +500,12 @@ namespace yy {
     TOK_NEQ = 17,                  // "<>"
     TOK_EXCL = 18,                 // "!"
     TOK_ALIAS = 19,                // "alias"
-    TOK_NUMBER = 20,               // NUMBER
-    TOK_ID = 21,                   // ID
-    TOK_CELL = 22,                 // CELL
-    TOK_STRING = 23,               // STRING
-    TOK_NEG = 24                   // NEG
+    TOK_SHEET = 20,                // "sheet"
+    TOK_NUMBER = 21,               // NUMBER
+    TOK_ID = 22,                   // ID
+    TOK_CELL = 23,                 // CELL
+    TOK_STRING = 24,               // STRING
+    TOK_NEG = 25                   // NEG
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -521,7 +522,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 25, ///< Number of tokens.
+        YYNTOKENS = 26, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -543,16 +544,17 @@ namespace yy {
         S_NEQ = 17,                              // "<>"
         S_EXCL = 18,                             // "!"
         S_ALIAS = 19,                            // "alias"
-        S_NUMBER = 20,                           // NUMBER
-        S_ID = 21,                               // ID
-        S_CELL = 22,                             // CELL
-        S_STRING = 23,                           // STRING
-        S_NEG = 24,                              // NEG
-        S_YYACCEPT = 25,                         // $accept
-        S_input = 26,                            // input
-        S_assignment = 27,                       // assignment
-        S_expr = 28,                             // expr
-        S_args = 29                              // args
+        S_SHEET = 20,                            // "sheet"
+        S_NUMBER = 21,                           // NUMBER
+        S_ID = 22,                               // ID
+        S_CELL = 23,                             // CELL
+        S_STRING = 24,                           // STRING
+        S_NEG = 25,                              // NEG
+        S_YYACCEPT = 26,                         // $accept
+        S_input = 27,                            // input
+        S_assignment = 28,                       // assignment
+        S_expr = 29,                             // expr
+        S_args = 30                              // args
       };
     };
 
@@ -826,7 +828,7 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_YYEOF
-                   || (token::TOK_YYerror <= tok && tok <= token::TOK_ALIAS)
+                   || (token::TOK_YYerror <= tok && tok <= token::TOK_SHEET)
                    || tok == token::TOK_NEG);
 #endif
       }
@@ -1200,6 +1202,21 @@ switch (yykind)
       make_ALIAS (const location_type& l)
       {
         return symbol_type (token::TOK_ALIAS, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_SHEET (location_type l)
+      {
+        return symbol_type (token::TOK_SHEET, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_SHEET (const location_type& l)
+      {
+        return symbol_type (token::TOK_SHEET, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1621,9 +1638,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 90,     ///< Last index in yytable_.
+      yylast_ = 76,     ///< Last index in yytable_.
       yynnts_ = 5,  ///< Number of nonterminal symbols.
-      yyfinal_ = 2 ///< Termination state number.
+      yyfinal_ = 4 ///< Termination state number.
     };
 
 
@@ -1781,7 +1798,7 @@ switch (yykind)
 
 
 } // yy
-#line 1785 "src\\parser.hh"
+#line 1802 "src\\parser.hh"
 
 
 
