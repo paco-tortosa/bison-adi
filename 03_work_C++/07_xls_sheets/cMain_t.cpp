@@ -38,7 +38,7 @@ int main()
     std::ostringstream ss;
     //ss << f_in.rdbuf() << std::endl;
 
-    int iMaxLines = 217;
+    int iMaxLines = 216;
     int iLines = 0;
     for( std::string line; std::getline( f_in, line ); )
     {

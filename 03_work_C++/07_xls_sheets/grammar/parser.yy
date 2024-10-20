@@ -57,7 +57,7 @@
 %token SHEET    "sheet";
 
 %token <double> NUMBER
-%token <std::string> ID CELL STRING
+%token <std::string> ID CELL STRING1 STRING2
 %nterm <std::shared_ptr<cExpr_t>> expr
 %nterm assignment
 %nterm <std::vector<std::shared_ptr<cExpr_t>>> args
@@ -73,7 +73,7 @@ input:
     %empty                  {}
     | input "\n"            {}
     | input assignment "\n" {}
-    | SHEET "=" STRING "\n" {
+    | SHEET "=" STRING2 "\n"{
                                 cDriver.m_strSheetInParsing = $3;
                             }
     | input ID "alias" ID "!" CELL "\n" {
@@ -100,7 +100,7 @@ expr:
                                 $$->m_encExprType = cExpr_t::encExprType_t::ID; 
                                 $$->m_strString = $1;
                             }              
-    | STRING                { 
+    | STRING2               { 
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::STRING; 
                                 $$->m_SetExprDataType(cExpr_t::encExprDataType_t::STRING);

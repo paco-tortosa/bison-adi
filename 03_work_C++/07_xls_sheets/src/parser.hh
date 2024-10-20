@@ -426,7 +426,8 @@ namespace yy {
 
       // ID
       // CELL
-      // STRING
+      // STRING1
+      // STRING2
       char dummy3[sizeof (std::string)];
 
       // args
@@ -504,8 +505,9 @@ namespace yy {
     TOK_NUMBER = 21,               // NUMBER
     TOK_ID = 22,                   // ID
     TOK_CELL = 23,                 // CELL
-    TOK_STRING = 24,               // STRING
-    TOK_NEG = 25                   // NEG
+    TOK_STRING1 = 24,              // STRING1
+    TOK_STRING2 = 25,              // STRING2
+    TOK_NEG = 26                   // NEG
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -522,7 +524,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 26, ///< Number of tokens.
+        YYNTOKENS = 27, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -548,13 +550,14 @@ namespace yy {
         S_NUMBER = 21,                           // NUMBER
         S_ID = 22,                               // ID
         S_CELL = 23,                             // CELL
-        S_STRING = 24,                           // STRING
-        S_NEG = 25,                              // NEG
-        S_YYACCEPT = 26,                         // $accept
-        S_input = 27,                            // input
-        S_assignment = 28,                       // assignment
-        S_expr = 29,                             // expr
-        S_args = 30                              // args
+        S_STRING1 = 24,                          // STRING1
+        S_STRING2 = 25,                          // STRING2
+        S_NEG = 26,                              // NEG
+        S_YYACCEPT = 27,                         // $accept
+        S_input = 28,                            // input
+        S_assignment = 29,                       // assignment
+        S_expr = 30,                             // expr
+        S_args = 31                              // args
       };
     };
 
@@ -601,7 +604,8 @@ namespace yy {
 
       case symbol_kind::S_ID: // ID
       case symbol_kind::S_CELL: // CELL
-      case symbol_kind::S_STRING: // STRING
+      case symbol_kind::S_STRING1: // STRING1
+      case symbol_kind::S_STRING2: // STRING2
         value.move< std::string > (std::move (that.value));
         break;
 
@@ -722,7 +726,8 @@ switch (yykind)
 
       case symbol_kind::S_ID: // ID
       case symbol_kind::S_CELL: // CELL
-      case symbol_kind::S_STRING: // STRING
+      case symbol_kind::S_STRING1: // STRING1
+      case symbol_kind::S_STRING2: // STRING2
         value.template destroy< std::string > ();
         break;
 
@@ -853,7 +858,7 @@ switch (yykind)
 #endif
       {
 #if !defined _MSC_VER || defined __clang__
-        YY_ASSERT ((token::TOK_ID <= tok && tok <= token::TOK_STRING));
+        YY_ASSERT ((token::TOK_ID <= tok && tok <= token::TOK_STRING2));
 #endif
       }
     };
@@ -1267,16 +1272,31 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_STRING (std::string v, location_type l)
+      make_STRING1 (std::string v, location_type l)
       {
-        return symbol_type (token::TOK_STRING, std::move (v), std::move (l));
+        return symbol_type (token::TOK_STRING1, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_STRING (const std::string& v, const location_type& l)
+      make_STRING1 (const std::string& v, const location_type& l)
       {
-        return symbol_type (token::TOK_STRING, v, l);
+        return symbol_type (token::TOK_STRING1, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_STRING2 (std::string v, location_type l)
+      {
+        return symbol_type (token::TOK_STRING2, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_STRING2 (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::TOK_STRING2, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1675,7 +1695,8 @@ switch (yykind)
 
       case symbol_kind::S_ID: // ID
       case symbol_kind::S_CELL: // CELL
-      case symbol_kind::S_STRING: // STRING
+      case symbol_kind::S_STRING1: // STRING1
+      case symbol_kind::S_STRING2: // STRING2
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
@@ -1724,7 +1745,8 @@ switch (yykind)
 
       case symbol_kind::S_ID: // ID
       case symbol_kind::S_CELL: // CELL
-      case symbol_kind::S_STRING: // STRING
+      case symbol_kind::S_STRING1: // STRING1
+      case symbol_kind::S_STRING2: // STRING2
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
@@ -1798,7 +1820,7 @@ switch (yykind)
 
 
 } // yy
-#line 1802 "src\\parser.hh"
+#line 1824 "src\\parser.hh"
 
 
 
