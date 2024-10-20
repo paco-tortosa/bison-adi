@@ -152,7 +152,10 @@ std::string cExpr_t::m_GetCStyleCode(std::map<std::string, cExpr_t>& _mapcCells)
             ss << ")";
         }
         else if (m_strFunction == "IF") {
-            ss << "( " << m_vspcExpr[0]->GENERATOR(_mapcCells) << " ? " << m_vspcExpr[1]->GENERATOR(_mapcCells) << " : " << m_vspcExpr[2]->GENERATOR(_mapcCells) << " )";
+            if(m_vspcExpr.size() == 3)
+                ss << "( " << m_vspcExpr[0]->GENERATOR(_mapcCells) << " ? " << m_vspcExpr[1]->GENERATOR(_mapcCells) << " : " << m_vspcExpr[2]->GENERATOR(_mapcCells) << " )";
+            else if(m_vspcExpr.size() == 2) //Error
+                ss << "( " << m_vspcExpr[0]->GENERATOR(_mapcCells) << " ? " << m_vspcExpr[1]->GENERATOR(_mapcCells) << " : " << "\"\"" << " )";
         }
         else {
             ss << m_strFunction << "(";

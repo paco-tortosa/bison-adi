@@ -443,13 +443,13 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[51] =
+static const flex_int16_t yy_accept[49] =
     {   0,
        22,   22,   27,   25,    1,    2,   17,   25,   25,    7,
         8,    5,    4,    9,    3,   22,    6,   22,   12,   15,
        10,   13,   21,   21,   21,   21,    1,    0,   24,    0,
        23,   22,   22,   22,   16,   11,   14,   20,   21,   21,
-       21,   21,   21,   21,   21,   21,   21,   18,   19,    0
+       21,   21,   21,   21,   19,   21,   18,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -463,10 +463,10 @@ static const YY_CHAR yy_ec[256] =
        18,   19,    1,    1,   20,   20,   20,   20,   20,   20,
        20,   20,   20,   20,   20,   20,   20,   20,   20,   20,
        20,   20,   20,   20,   20,   20,   20,   20,   20,   20,
-        1,    1,    1,    1,   21,    1,   22,   21,   21,   21,
+        1,    1,    1,    1,   21,    1,   22,   23,   21,   21,
 
-       23,   21,   21,   24,   25,   21,   21,   26,   21,   21,
-       21,   21,   21,   21,   27,   28,   21,   21,   21,   21,
+       21,   21,   21,   21,   24,   21,   21,   25,   21,   21,
+       21,   21,   21,   21,   26,   27,   21,   21,   21,   21,
        21,   21,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -484,63 +484,61 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[29] =
+static const YY_CHAR yy_meta[28] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    2,    1,    1,    1,    1,    2,
-        2,    2,    2,    2,    2,    2,    2,    2
+        2,    2,    2,    2,    2,    2,    2
     } ;
 
-static const flex_int16_t yy_base[55] =
+static const flex_int16_t yy_base[53] =
     {   0,
-        0,    0,   75,   76,   72,   76,   76,   68,   66,   76,
-       76,   76,   76,   76,   76,   56,   76,   16,   76,   14,
-       76,   52,   15,   54,   19,   22,   66,   62,   76,   60,
-       76,   50,   49,   23,   76,   76,   76,   48,   24,   47,
-        0,   25,   26,   32,   38,   25,   28,   32,   30,   76,
-       56,   58,   41,   40
+        0,    0,   70,   71,   67,   71,   71,   63,   61,   71,
+       71,   71,   71,   71,   71,   51,   71,   15,   71,   13,
+       71,   47,   14,   49,   18,   20,   61,   57,   71,   55,
+       71,   45,   44,   23,   71,   71,   71,   43,   24,   42,
+        0,   22,   25,   34,   33,   19,   32,   71,   48,   50,
+       51,   45
     } ;
 
-static const flex_int16_t yy_def[55] =
+static const flex_int16_t yy_def[53] =
     {   0,
-       50,    1,   50,   50,   50,   50,   50,   51,   52,   50,
-       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
-       50,   50,   53,   53,   53,   53,   50,   51,   50,   52,
-       50,   50,   50,   50,   50,   50,   50,   54,   53,   53,
-       54,   53,   53,   53,   43,   43,   43,   43,   43,    0,
-       50,   50,   50,   50
+       48,    1,   48,   48,   48,   48,   48,   49,   50,   48,
+       48,   48,   48,   48,   48,   48,   48,   48,   48,   48,
+       48,   48,   51,   51,   51,   51,   48,   49,   48,   50,
+       48,   48,   48,   48,   48,   48,   48,   52,   51,   51,
+       52,   51,   51,   26,   26,   26,   26,    0,   48,   48,
+       48,   48
     } ;
 
-static const flex_int16_t yy_nxt[105] =
+static const flex_int16_t yy_nxt[99] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
        14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
-       24,   25,   24,   24,   24,   24,   26,   24,   33,   38,
-       34,   35,   36,   41,   39,   33,   41,   34,   38,   41,
-       41,   41,   40,   39,   42,   43,   41,   40,   45,   44,
-       40,   48,   40,   46,   40,   49,   28,   28,   30,   30,
-       47,   41,   38,   32,   32,   31,   29,   27,   41,   37,
-       32,   31,   29,   27,   50,    3,   50,   50,   50,   50,
-       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
-       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+       24,   25,   24,   24,   24,   24,   26,   33,   38,   34,
+       35,   36,   41,   39,   41,   33,   41,   34,   38,   41,
+       40,   43,   42,   39,   47,   44,   41,   45,   28,   28,
+       30,   30,   40,   40,   40,   46,   41,   38,   32,   32,
+       31,   29,   27,   41,   37,   32,   31,   29,   27,   48,
+        3,   48,   48,   48,   48,   48,   48,   48,   48,   48,
+       48,   48,   48,   48,   48,   48,   48,   48,   48,   48,
+       48,   48,   48,   48,   48,   48,   48,   48
 
-       50,   50,   50,   50
     } ;
 
-static const flex_int16_t yy_chk[105] =
+static const flex_int16_t yy_chk[99] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,   18,   23,
-       18,   20,   20,   25,   23,   34,   26,   34,   39,   42,
-       43,   54,   53,   39,   25,   26,   44,   46,   43,   42,
-       47,   46,   49,   44,   48,   47,   51,   51,   52,   52,
-       45,   40,   38,   33,   32,   30,   28,   27,   24,   22,
-       16,    9,    8,    5,    3,   50,   50,   50,   50,   50,
-       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
-       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+        1,    1,    1,    1,    1,    1,    1,   18,   23,   18,
+       20,   20,   25,   23,   26,   34,   42,   34,   39,   43,
+       46,   26,   25,   39,   46,   42,   52,   43,   49,   49,
+       50,   50,   51,   47,   45,   44,   40,   38,   33,   32,
+       30,   28,   27,   24,   22,   16,    9,    8,    5,    3,
+       48,   48,   48,   48,   48,   48,   48,   48,   48,   48,
+       48,   48,   48,   48,   48,   48,   48,   48,   48,   48,
+       48,   48,   48,   48,   48,   48,   48,   48
 
-       50,   50,   50,   50
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -551,9 +549,9 @@ int yy_flex_debug = 1;
 
 static const flex_int16_t yy_rule_linenum[26] =
     {   0,
-       36,   37,   44,   45,   46,   47,   48,   49,   50,   51,
-       52,   53,   54,   55,   56,   57,   58,   59,   60,   62,
-       63,   64,   65,   66,   67
+       35,   36,   43,   44,   45,   46,   47,   48,   49,   50,
+       51,   52,   53,   54,   55,   56,   57,   58,   59,   61,
+       62,   63,   64,   65,   66
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -568,20 +566,19 @@ char *yytext;
 #line 2 "grammar\\scanner.ll"
     #include "cDriver_t.hpp"
     #include "parser.hh"
-#line 571 "src\\scanner.cc"
+#line 569 "src\\scanner.cc"
 #line 7 "grammar\\scanner.ll"
     #define FLEX_VERSION (YY_FLEX_MAJOR_VERSION * 100 + YY_FLEX_MINOR_VERSION)
     //#define EKO ECHO
     #define EKO 
-#line 576 "src\\scanner.cc"
+#line 574 "src\\scanner.cc"
 #define YY_NO_INPUT 1
 #line 16 "grammar\\scanner.ll"
     yy::parser::symbol_type make_NUMBER  (const std::string &_strText, const yy::parser::location_type& _loc);
-    yy::parser::symbol_type make_STRING1 (const std::string &_strText, const yy::parser::location_type& _cLocation);
     yy::parser::symbol_type make_STRING2 (const std::string &_strText, const yy::parser::location_type& _cLocation);
     #define YY_USER_ACTION  cDriver.m_cLocation.columns (yyleng); // Code run each time a pattern is matched.
-#line 583 "src\\scanner.cc"
-#line 584 "src\\scanner.cc"
+#line 580 "src\\scanner.cc"
+#line 581 "src\\scanner.cc"
 
 #define INITIAL 0
 
@@ -859,15 +856,15 @@ YY_DECL
 
 	{
 /* %% [7.0] user's declarations go here */
-#line 29 "grammar\\scanner.ll"
+#line 28 "grammar\\scanner.ll"
 
 
 
-#line 33 "grammar\\scanner.ll"
+#line 32 "grammar\\scanner.ll"
     cDriver.m_cLocation.step();  // Code run each time yylex is called.
 
 
-#line 870 "src\\scanner.cc"
+#line 867 "src\\scanner.cc"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -896,13 +893,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 51 )
+				if ( yy_current_state >= 49 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_current_state != 50 );
+		while ( yy_current_state != 48 );
 		yy_cp = (yy_last_accepting_cpos);
 		yy_current_state = (yy_last_accepting_state);
 
@@ -945,13 +942,13 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 36 "grammar\\scanner.ll"
+#line 35 "grammar\\scanner.ll"
 cDriver.m_cLocation.step();
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 37 "grammar\\scanner.ll"
+#line 36 "grammar\\scanner.ll"
 {
             EKO;
             cDriver.m_cLocation.lines(yyleng); 
@@ -961,133 +958,133 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 44 "grammar\\scanner.ll"
+#line 43 "grammar\\scanner.ll"
 EKO; return yy::parser::make_MINUS  (cDriver.m_cLocation);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 45 "grammar\\scanner.ll"
+#line 44 "grammar\\scanner.ll"
 EKO; return yy::parser::make_PLUS   (cDriver.m_cLocation);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 46 "grammar\\scanner.ll"
+#line 45 "grammar\\scanner.ll"
 EKO; return yy::parser::make_STAR   (cDriver.m_cLocation);
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 47 "grammar\\scanner.ll"
+#line 46 "grammar\\scanner.ll"
 EKO; return yy::parser::make_SLASH  (cDriver.m_cLocation);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 48 "grammar\\scanner.ll"
+#line 47 "grammar\\scanner.ll"
 EKO; return yy::parser::make_LPAREN (cDriver.m_cLocation);
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 49 "grammar\\scanner.ll"
+#line 48 "grammar\\scanner.ll"
 EKO; return yy::parser::make_RPAREN (cDriver.m_cLocation);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 50 "grammar\\scanner.ll"
+#line 49 "grammar\\scanner.ll"
 EKO; return yy::parser::make_COMMA  (cDriver.m_cLocation);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 51 "grammar\\scanner.ll"
+#line 50 "grammar\\scanner.ll"
 EKO; return yy::parser::make_EQ     (cDriver.m_cLocation);
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 52 "grammar\\scanner.ll"
+#line 51 "grammar\\scanner.ll"
 EKO; return yy::parser::make_NEQ    (cDriver.m_cLocation);
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 53 "grammar\\scanner.ll"
+#line 52 "grammar\\scanner.ll"
 EKO; return yy::parser::make_COLON  (cDriver.m_cLocation);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 54 "grammar\\scanner.ll"
+#line 53 "grammar\\scanner.ll"
 EKO; return yy::parser::make_GT     (cDriver.m_cLocation);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 55 "grammar\\scanner.ll"
+#line 54 "grammar\\scanner.ll"
 EKO; return yy::parser::make_GE     (cDriver.m_cLocation);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 56 "grammar\\scanner.ll"
+#line 55 "grammar\\scanner.ll"
 EKO; return yy::parser::make_LT     (cDriver.m_cLocation);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 57 "grammar\\scanner.ll"
+#line 56 "grammar\\scanner.ll"
 EKO; return yy::parser::make_LE     (cDriver.m_cLocation);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 58 "grammar\\scanner.ll"
+#line 57 "grammar\\scanner.ll"
 EKO; return yy::parser::make_EXCL   (cDriver.m_cLocation);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 59 "grammar\\scanner.ll"
+#line 58 "grammar\\scanner.ll"
 EKO; return yy::parser::make_ALIAS  (cDriver.m_cLocation);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 60 "grammar\\scanner.ll"
-EKO; return yy::parser::make_SHEET  (cDriver.m_cLocation);
+#line 59 "grammar\\scanner.ll"
+EKO; return yy::parser::make_TAB    (cDriver.m_cLocation);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 62 "grammar\\scanner.ll"
+#line 61 "grammar\\scanner.ll"
 EKO; return yy::parser::make_CELL   (yytext, cDriver.m_cLocation);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 63 "grammar\\scanner.ll"
+#line 62 "grammar\\scanner.ll"
 EKO; return yy::parser::make_ID     (yytext, cDriver.m_cLocation);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 64 "grammar\\scanner.ll"
+#line 63 "grammar\\scanner.ll"
 EKO; return make_NUMBER             (yytext, cDriver.m_cLocation);
 	YY_BREAK
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 65 "grammar\\scanner.ll"
-EKO; return make_STRING1            (yytext, cDriver.m_cLocation);
+#line 64 "grammar\\scanner.ll"
+EKO; return yy::parser::make_STRING1(yytext, cDriver.m_cLocation);
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 66 "grammar\\scanner.ll"
+#line 65 "grammar\\scanner.ll"
 EKO; return make_STRING2            (yytext, cDriver.m_cLocation);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 67 "grammar\\scanner.ll"
+#line 66 "grammar\\scanner.ll"
 {
              throw yy::parser::syntax_error (cDriver.m_cLocation, "invalid character: " + std::string(yytext));
            }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 70 "grammar\\scanner.ll"
+#line 69 "grammar\\scanner.ll"
 return yy::parser::make_YYEOF (cDriver.m_cLocation);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 71 "grammar\\scanner.ll"
+#line 70 "grammar\\scanner.ll"
 ECHO;
 	YY_BREAK
-#line 1090 "src\\scanner.cc"
+#line 1087 "src\\scanner.cc"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1406,7 +1403,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 51 )
+			if ( yy_current_state >= 49 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1439,11 +1436,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 51 )
+		if ( yy_current_state >= 49 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 50);
+	yy_is_jam = (yy_current_state == 48);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2192,13 +2189,8 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 71 "grammar\\scanner.ll"
+#line 70 "grammar\\scanner.ll"
 
-
-yy::parser::symbol_type make_STRING1 (const std::string &_strText, const yy::parser::location_type& _cLocation) {
-  std::string strContent = _strText.substr(1, _strText.size()-2);
-  return yy::parser::make_STRING1 (strContent, _cLocation);
-}
 
 yy::parser::symbol_type make_STRING2 (const std::string &_strText, const yy::parser::location_type& _cLocation) {
   std::string strContent = _strText.substr(1, _strText.size()-2);

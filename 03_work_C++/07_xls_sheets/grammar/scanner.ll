@@ -14,7 +14,6 @@
 
 %{
     yy::parser::symbol_type make_NUMBER  (const std::string &_strText, const yy::parser::location_type& _loc);
-    yy::parser::symbol_type make_STRING1 (const std::string &_strText, const yy::parser::location_type& _cLocation);
     yy::parser::symbol_type make_STRING2 (const std::string &_strText, const yy::parser::location_type& _cLocation);
     #define YY_USER_ACTION  cDriver.m_cLocation.columns (yyleng); // Code run each time a pattern is matched.
 %}
@@ -56,23 +55,18 @@ string1 ('[^']*')
 "<="       EKO; return yy::parser::make_LE     (cDriver.m_cLocation);
 "!"        EKO; return yy::parser::make_EXCL   (cDriver.m_cLocation);
 "alias"    EKO; return yy::parser::make_ALIAS  (cDriver.m_cLocation);
-"sheet"    EKO; return yy::parser::make_SHEET  (cDriver.m_cLocation);
+"tab"      EKO; return yy::parser::make_TAB    (cDriver.m_cLocation);
 
 {cell}     EKO; return yy::parser::make_CELL   (yytext, cDriver.m_cLocation);
 {id}       EKO; return yy::parser::make_ID     (yytext, cDriver.m_cLocation);
 {float}    EKO; return make_NUMBER             (yytext, cDriver.m_cLocation);
-{string1}  EKO; return make_STRING1            (yytext, cDriver.m_cLocation);
+{string1}  EKO; return yy::parser::make_STRING1(yytext, cDriver.m_cLocation);
 {string2}  EKO; return make_STRING2            (yytext, cDriver.m_cLocation);
 .          {
              throw yy::parser::syntax_error (cDriver.m_cLocation, "invalid character: " + std::string(yytext));
            }
 <<EOF>>    return yy::parser::make_YYEOF (cDriver.m_cLocation);
 %%
-
-yy::parser::symbol_type make_STRING1 (const std::string &_strText, const yy::parser::location_type& _cLocation) {
-  std::string strContent = _strText.substr(1, _strText.size()-2);
-  return yy::parser::make_STRING1 (strContent, _cLocation);
-}
 
 yy::parser::symbol_type make_STRING2 (const std::string &_strText, const yy::parser::location_type& _cLocation) {
   std::string strContent = _strText.substr(1, _strText.size()-2);

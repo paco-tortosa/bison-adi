@@ -50,13 +50,23 @@ public:
         case encExprType_t::CELL:
             return "CELL " +  m_strCell;
         case encExprType_t::CELL_WITH_SHEET:
-            return "CELL_WITH_SHEET " + m_strSheet + "!" + m_strCell;
+            if(m_strSheet.find(" ") != std::string::npos){
+                return "CELL_WITH_SHEET '" + m_strSheet + "'!" + m_strCell;
+            }
+            else{
+                return "CELL_WITH_SHEET " + m_strSheet + "!" + m_strCell;
+            }
         case encExprType_t::RANGE:
-            return "RANGE";
+            return "RANGE " + m_strCell + ":" + m_strCell2;
         case encExprType_t::RANGE_WITH_SHEET:
-            return "RANGE_WITH_SHEET " + m_strSheet + "!" + m_strCell + ":" + m_strCell2;
+            if(m_strSheet.find(" ") != std::string::npos){
+                return "RANGE_WITH_SHEET '" + m_strSheet + "'!" + m_strCell + ":" + m_strCell2;
+            }
+            else{
+                return "RANGE_WITH_SHEET " + m_strSheet + "!" + m_strCell + ":" + m_strCell2;
+            }
         case encExprType_t::FUNCTION:
-            return "FUNCTION";
+            return "FUNCTION " + m_strFunction;
         case encExprType_t::ARITH_ADD:
             return "ARITH_ADD";
         case encExprType_t::ARITH_SUB:

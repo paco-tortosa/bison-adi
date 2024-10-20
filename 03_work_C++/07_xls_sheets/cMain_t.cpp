@@ -38,15 +38,15 @@ int main()
     std::ostringstream ss;
     //ss << f_in.rdbuf() << std::endl;
 
-    int iMaxLines = 216;
-    int iLines = 0;
+    int iMaxLines = 13999;
+    int iLines = 1;
     for( std::string line; std::getline( f_in, line ); )
     {
-        ss << line << std::endl;
-        iLines++;
         if(iLines > iMaxLines){
             break;
         }
+        ss << line << std::endl;
+        iLines++;
     }
     std::string strText2Parse = ss.str();
 
@@ -76,6 +76,7 @@ int main()
                         if(cDriver.m_cApp.m_mapcCells.count(cellWithSheet)){
                             if( cDriver.m_cApp.m_mapcCells[cellWithSheet].m_IsFinalDataType() ){
                                 exprRef->m_encExprDataType = cDriver.m_cApp.m_mapcCells[cellWithSheet].m_encExprDataType;
+                                expr.m_encExprDataType = exprRef->m_encExprDataType;
                             }
                         }
                     }
@@ -96,6 +97,33 @@ int main()
                 break;
             }
         }
+        std::cout << std::endl;
+
+        if(iUndefines){
+            std::cout << "Undefines = " << iUndefines << std::endl;
+
+            for(auto& it:cDriver.m_cApp.m_mapcCells){
+                auto& cell = it.first;
+                auto& expr = it.second;
+
+                if(expr.m_IsFinalDataType()){
+                    continue;
+                }
+
+                std::cout << cell << " = " << expr.m_GetXlsStyleCode() << std::endl; 
+                std::cout << cell << " = " << expr.m_GetCStyleCode(cDriver.m_cApp.m_mapcCells) << std::endl; 
+                std::cout << cell << " => " << expr.m_GetExprDataType(); 
+                std::string strDependencies = expr.m_PrintDependencies();
+                if(strDependencies.size()){
+                    std::cout << ", depends on " << strDependencies << std::endl;
+                }
+                else{
+                    std::cout << std::endl;
+                }
+                std::cout << std::endl;
+            }
+        }
+
         std::cout << std::endl;
 
         for(auto& it:cDriver.m_cApp.m_mapcCells){

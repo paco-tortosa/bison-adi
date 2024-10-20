@@ -428,6 +428,7 @@ namespace yy {
       // CELL
       // STRING1
       // STRING2
+      // sheet
       char dummy3[sizeof (std::string)];
 
       // args
@@ -501,7 +502,7 @@ namespace yy {
     TOK_NEQ = 17,                  // "<>"
     TOK_EXCL = 18,                 // "!"
     TOK_ALIAS = 19,                // "alias"
-    TOK_SHEET = 20,                // "sheet"
+    TOK_TAB = 20,                  // "tab"
     TOK_NUMBER = 21,               // NUMBER
     TOK_ID = 22,                   // ID
     TOK_CELL = 23,                 // CELL
@@ -546,7 +547,7 @@ namespace yy {
         S_NEQ = 17,                              // "<>"
         S_EXCL = 18,                             // "!"
         S_ALIAS = 19,                            // "alias"
-        S_SHEET = 20,                            // "sheet"
+        S_TAB = 20,                              // "tab"
         S_NUMBER = 21,                           // NUMBER
         S_ID = 22,                               // ID
         S_CELL = 23,                             // CELL
@@ -557,7 +558,8 @@ namespace yy {
         S_input = 28,                            // input
         S_assignment = 29,                       // assignment
         S_expr = 30,                             // expr
-        S_args = 31                              // args
+        S_sheet = 31,                            // sheet
+        S_args = 32                              // args
       };
     };
 
@@ -606,6 +608,7 @@ namespace yy {
       case symbol_kind::S_CELL: // CELL
       case symbol_kind::S_STRING1: // STRING1
       case symbol_kind::S_STRING2: // STRING2
+      case symbol_kind::S_sheet: // sheet
         value.move< std::string > (std::move (that.value));
         break;
 
@@ -728,6 +731,7 @@ switch (yykind)
       case symbol_kind::S_CELL: // CELL
       case symbol_kind::S_STRING1: // STRING1
       case symbol_kind::S_STRING2: // STRING2
+      case symbol_kind::S_sheet: // sheet
         value.template destroy< std::string > ();
         break;
 
@@ -833,7 +837,7 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::TOK_YYEOF
-                   || (token::TOK_YYerror <= tok && tok <= token::TOK_SHEET)
+                   || (token::TOK_YYerror <= tok && tok <= token::TOK_TAB)
                    || tok == token::TOK_NEG);
 #endif
       }
@@ -1212,16 +1216,16 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_SHEET (location_type l)
+      make_TAB (location_type l)
       {
-        return symbol_type (token::TOK_SHEET, std::move (l));
+        return symbol_type (token::TOK_TAB, std::move (l));
       }
 #else
       static
       symbol_type
-      make_SHEET (const location_type& l)
+      make_TAB (const location_type& l)
       {
-        return symbol_type (token::TOK_SHEET, l);
+        return symbol_type (token::TOK_TAB, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1658,9 +1662,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 78,     ///< Last index in yytable_.
-      yynnts_ = 5,  ///< Number of nonterminal symbols.
-      yyfinal_ = 4 ///< Termination state number.
+      yylast_ = 92,     ///< Last index in yytable_.
+      yynnts_ = 6,  ///< Number of nonterminal symbols.
+      yyfinal_ = 2 ///< Termination state number.
     };
 
 
@@ -1697,6 +1701,7 @@ switch (yykind)
       case symbol_kind::S_CELL: // CELL
       case symbol_kind::S_STRING1: // STRING1
       case symbol_kind::S_STRING2: // STRING2
+      case symbol_kind::S_sheet: // sheet
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
@@ -1747,6 +1752,7 @@ switch (yykind)
       case symbol_kind::S_CELL: // CELL
       case symbol_kind::S_STRING1: // STRING1
       case symbol_kind::S_STRING2: // STRING2
+      case symbol_kind::S_sheet: // sheet
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
@@ -1820,7 +1826,7 @@ switch (yykind)
 
 
 } // yy
-#line 1824 "src\\parser.hh"
+#line 1830 "src\\parser.hh"
 
 
 

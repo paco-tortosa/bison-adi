@@ -54,13 +54,14 @@
 %token NEQ      "<>";
 %token EXCL     "!";
 %token ALIAS    "alias";
-%token SHEET    "sheet";
+%token TAB      "tab";
 
 %token <double> NUMBER
 %token <std::string> ID CELL STRING1 STRING2
 %nterm <std::shared_ptr<cExpr_t>> expr
 %nterm assignment
 %nterm <std::vector<std::shared_ptr<cExpr_t>>> args
+%nterm <std::string> sheet
 
 %nonassoc "=" "<=" "<" ">=" ">" "<>"  
 %left "+" "-";
@@ -73,8 +74,8 @@ input:
     %empty                  {}
     | input "\n"            {}
     | input assignment "\n" {}
-    | SHEET "=" STRING2 "\n"{
-                                cDriver.m_strSheetInParsing = $3;
+    | input TAB "=" STRING2 "\n"  {
+                                cDriver.m_strSheetInParsing = $4;
                             }
     | input ID "alias" ID "!" CELL "\n" {
                                 cExpr_t::s_MapAlias[$2] = $4 + "!" + $6;
@@ -82,7 +83,7 @@ input:
 ;
 
 assignment:
-    ID "!" CELL "=" expr    {
+    sheet "!" CELL "=" expr    {
                                 std::string strSheetAndCell = $1 + "!" + $3;
                                 cDriver.m_cApp.m_mapcCells[strSheetAndCell] = *$5;
                             }
@@ -106,7 +107,7 @@ expr:
                                 $$->m_SetExprDataType(cExpr_t::encExprDataType_t::STRING);
                                 $$->m_strString = $1;
                             }              
-    | ID "!" CELL           { 
+    | sheet "!" CELL        { 
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::CELL_WITH_SHEET; 
                                 $$->m_strSheet = $1;
@@ -121,7 +122,7 @@ expr:
                                 $$->m_strCell = $1;
                                 $$->m_vstrDependOnCells.push_back($1);
                             }              
-    | ID "!" CELL ":" CELL  { 
+    | sheet "!" CELL ":" CELL  { 
                                 $$ = std::make_shared<cExpr_t>();
                                 $$->m_encExprType = cExpr_t::encExprType_t::RANGE_WITH_SHEET; 
                                 $$->m_strSheet = $1;
@@ -255,6 +256,15 @@ expr:
                                 $$->m_vspcExpr.push_back($3);
                                 $$->m_AddDependency(*$3);
                             }
+;
+
+sheet:
+    STRING1                 { 
+                                $$ = $1;
+                            }
+    | ID                    {    
+                                $$ = $1;
+                            }              
 ;
 
 args:
